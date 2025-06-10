@@ -13,7 +13,6 @@
             --light: #f7f7f7;
             --danger: #e74c3c;
             --warning: #f39c12;
-            --admin: #9b59b6;
         }
         * {
             margin: 0;
@@ -54,18 +53,12 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             border-left: 5px solid var(--secondary);
         }
-        .admin-card {
-            border-left: 5px solid var(--admin);
-        }
         .card h2 {
             color: var(--secondary);
             margin-bottom: 20px;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
-        }
-        .admin-card h2 {
-            color: var(--admin);
         }
         .card h2 i {
             margin-right: 10px;
@@ -107,16 +100,10 @@
             transition: all 0.3s;
             text-align: center;
         }
-        .btn-admin {
-            background-color: var(--admin);
-        }
         .btn:hover {
             background-color: #16a085;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .btn-admin:hover {
-            background-color: #8e44ad;
         }
         .btn-block {
             display: block;
@@ -139,16 +126,10 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             border-top: 4px solid var(--secondary);
         }
-        .admin-stat-card {
-            border-top: 4px solid var(--admin);
-        }
         .stat-card h3 {
             color: var(--secondary);
             font-size: 1.2rem;
             margin-bottom: 10px;
-        }
-        .admin-stat-card h3 {
-            color: var(--admin);
         }
         .stat-card p {
             font-size: 1.8rem;
@@ -169,9 +150,6 @@
             justify-content: space-between;
             align-items: center;
             border-left: 4px solid var(--secondary);
-        }
-        .admin-transaction-item {
-            border-left: 4px solid var(--admin);
         }
         .transaction-type {
             font-weight: 600;
@@ -203,12 +181,6 @@
         .nav-link:hover {
             color: var(--secondary);
         }
-        .admin-nav-link {
-            color: var(--admin);
-        }
-        .admin-nav-link:hover {
-            color: #8e44ad;
-        }
         .text-center {
             text-align: center;
         }
@@ -224,9 +196,6 @@
             font-size: 3rem;
             color: var(--secondary);
             margin-right: 20px;
-        }
-        .admin-profile-icon {
-            color: var(--admin);
         }
         .profile-info h3 {
             font-size: 1.5rem;
@@ -250,10 +219,6 @@
             color: var(--secondary);
             font-weight: 600;
         }
-        .admin-tab.active {
-            border-bottom: 3px solid var(--admin);
-            color: var(--admin);
-        }
         .tab-content {
             display: none;
         }
@@ -272,33 +237,10 @@
             z-index: 1000;
             animation: slideIn 0.5s ease-out;
         }
-        .admin-notification {
-            background: var(--admin);
-        }
         .cooldown {
             color: var(--danger);
             font-weight: 600;
             margin-top: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        th {
-            background-color: rgba(0, 0, 0, 0.2);
-            color: var(--secondary);
-        }
-        .admin-table th {
-            color: var(--admin);
-        }
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.05);
         }
         .badge {
             padding: 5px 10px;
@@ -318,10 +260,6 @@
             background-color: rgba(231, 76, 60, 0.2);
             color: var(--danger);
         }
-        .badge-admin {
-            background-color: rgba(155, 89, 182, 0.2);
-            color: var(--admin);
-        }
         @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
@@ -335,16 +273,11 @@
             <div id="authLinks">
                 <a href="#" class="nav-link" onclick="showLogin()">Login</a>
                 <a href="#" class="nav-link" onclick="showRegistration()">Register</a>
-                <a href="#" class="nav-link admin-nav-link" onclick="showAdminLogin()"><i class="fas fa-lock"></i> Admin</a>
             </div>
             <div id="userNav" class="hidden">
                 <a href="#" class="nav-link" onclick="showDashboard()"><i class="fas fa-home"></i> Dashboard</a>
                 <a href="#" class="nav-link" onclick="showProfile()"><i class="fas fa-user"></i> Profile</a>
                 <a href="#" class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-            <div id="adminNav" class="hidden">
-                <a href="#" class="nav-link admin-nav-link" onclick="showAdminDashboard()"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>
-                <a href="#" class="nav-link" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
     </header>
@@ -390,21 +323,6 @@
             </div>
             <button class="btn btn-block" onclick="register()">Register</button>
             <p class="text-center mt-4">Already have an account? <a href="#" class="nav-link" onclick="showLogin()">Login here</a></p>
-        </div>
-
-        <!-- Admin Login Form -->
-        <div id="adminLoginForm" class="card admin-card hidden">
-            <h2><i class="fas fa-lock"></i> Admin Login</h2>
-            <div class="form-group">
-                <label for="adminUsername">Username</label>
-                <input type="text" id="adminUsername" class="form-control" placeholder="Enter admin username" required>
-            </div>
-            <div class="form-group">
-                <label for="adminPassword">Password</label>
-                <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password" required>
-            </div>
-            <button class="btn btn-block btn-admin" onclick="adminLogin()">Login</button>
-            <p class="text-center mt-4"><a href="#" class="nav-link" onclick="showLogin()">Back to User Login</a></p>
         </div>
 
         <!-- Dashboard (After Login) -->
@@ -554,125 +472,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Admin Dashboard -->
-        <div id="adminDashboard" class="hidden">
-            <div class="stats">
-                <div class="stat-card admin-stat-card">
-                    <h3><i class="fas fa-users"></i> Total Users</h3>
-                    <p id="totalUsers">0</p>
-                </div>
-                <div class="stat-card admin-stat-card">
-                    <h3><i class="fas fa-hand-holding-usd"></i> Total Deposits</h3>
-                    <p id="totalAdminDeposits">PKR0.00</p>
-                </div>
-                <div class="stat-card admin-stat-card">
-                    <h3><i class="fas fa-credit-card"></i> Total Withdrawals</h3>
-                    <p id="totalAdminWithdrawals">PKR0.00</p>
-                </div>
-                <div class="stat-card admin-stat-card">
-                    <h3><i class="fas fa-coins"></i> Total Profits</h3>
-                    <p id="totalAdminProfits">PKR0.00</p>
-                </div>
-            </div>
-
-            <div class="card admin-card">
-                <h2><i class="fas fa-users"></i> All Users</h2>
-                <div class="form-group">
-                    <input type="text" id="adminUserSearch" class="form-control" placeholder="Search users by name or email" onkeyup="searchUsers()">
-                </div>
-                <div class="transaction-history">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Balance</th>
-                                <th>Deposits</th>
-                                <th>Profit</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminUsersTable">
-                            <tr>
-                                <td colspan="7" class="text-center">No users found</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card admin-card">
-                <h2><i class="fas fa-money-bill-wave"></i> Deposit Requests</h2>
-                <div class="transaction-history">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Amount</th>
-                                <th>Method</th>
-                                <th>TRX ID</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminDepositsTable">
-                            <tr>
-                                <td colspan="7" class="text-center">No deposit requests</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card admin-card">
-                <h2><i class="fas fa-credit-card"></i> Withdrawal Requests</h2>
-                <div class="transaction-history">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Amount</th>
-                                <th>Method</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminWithdrawalsTable">
-                            <tr>
-                                <td colspan="6" class="text-center">No withdrawal requests</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card admin-card">
-                <h2><i class="fas fa-history"></i> All Transactions</h2>
-                <div class="transaction-history">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Method</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminTransactionsTable">
-                            <tr>
-                                <td colspan="6" class="text-center">No transactions</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Firebase SDK -->
@@ -700,13 +499,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Admin credentials
-        const ADMIN_CREDENTIALS = {
-            username: "moneybank",
-            password: "Fareedmari786@",
-            email: "admin@moneybank.com"
-        };
-
         // Current user
         let currentUser = null;
         let profitInterval;
@@ -719,52 +511,21 @@
                 if (user) {
                     db.collection("users").doc(user.uid).get()
                         .then(doc => {
-                            if (!doc.exists && user.email === ADMIN_CREDENTIALS.email) {
-                                // Create admin document if it doesn't exist
-                                const adminData = {
-                                    name: "Admin",
-                                    email: ADMIN_CREDENTIALS.email,
-                                    balance: 0,
-                                    totalDeposited: 0,
-                                    profit: 0,
-                                    transactions: [],
-                                    depositHistory: [],
-                                    usedTrxIds: [],
-                                    registrationDate: new Date().getTime(),
-                                    paymentMethods: {},
-                                    lastProfitTime: new Date().getTime(),
-                                    lastDepositTime: 0,
-                                    firstDepositDate: 0,
-                                    isAdmin: true
-                                };
-                                return db.collection("users").doc(user.uid).set(adminData)
-                                    .then(() => {
-                                        currentUser = adminData;
-                                        currentUser.uid = user.uid;
-                                        showAdminDashboard();
-                                        updateAdminDashboard();
-                                    });
-                            } else if (doc.exists) {
+                            if (doc.exists) {
                                 currentUser = doc.data();
                                 currentUser.uid = doc.id;
+                                showDashboard();
+                                startProfitCalculation();
+                                startProfitTimer();
+                                startDepositCooldownTimer();
                                 
-                                if (currentUser.email === ADMIN_CREDENTIALS.email || currentUser.isAdmin) {
-                                    showAdminDashboard();
-                                    updateAdminDashboard();
-                                } else {
-                                    showDashboard();
-                                    startProfitCalculation();
-                                    startProfitTimer();
-                                    startDepositCooldownTimer();
-                                    
-                                    // Check if profit needs to be added
-                                    const now = new Date().getTime();
-                                    const lastProfitTime = currentUser.lastProfitTime || now;
-                                    const hoursSinceLastProfit = (now - lastProfitTime) / (1000 * 60 * 60);
-                                    
-                                    if (hoursSinceLastProfit >= 24 && currentUser.totalDeposited > 0) {
-                                        addDailyProfit();
-                                    }
+                                // Check if profit needs to be added
+                                const now = new Date().getTime();
+                                const lastProfitTime = currentUser.lastProfitTime || now;
+                                const hoursSinceLastProfit = (now - lastProfitTime) / (1000 * 60 * 60);
+                                
+                                if (hoursSinceLastProfit >= 24 && currentUser.totalDeposited > 0) {
+                                    addDailyProfit();
                                 }
                             } else {
                                 logout();
@@ -787,11 +548,8 @@
             document.getElementById('registrationForm').classList.remove('hidden');
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('adminLoginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById('authLinks').classList.remove('hidden');
             document.getElementById('userNav').classList.add('hidden');
-            document.getElementById('adminNav').classList.add('hidden');
             clearInterval(profitTimerInterval);
             clearInterval(depositCooldownInterval);
         }
@@ -801,25 +559,8 @@
             document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('adminLoginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById('authLinks').classList.remove('hidden');
             document.getElementById('userNav').classList.add('hidden');
-            document.getElementById('adminNav').classList.add('hidden');
-            clearInterval(profitTimerInterval);
-            clearInterval(depositCooldownInterval);
-        }
-
-        function showAdminLogin() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registrationForm').classList.add('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('adminLoginForm').classList.remove('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('authLinks').classList.remove('hidden');
-            document.getElementById('userNav').classList.add('hidden');
-            document.getElementById('adminNav').classList.add('hidden');
             clearInterval(profitTimerInterval);
             clearInterval(depositCooldownInterval);
         }
@@ -829,33 +570,16 @@
             document.getElementById('registrationForm').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('adminLoginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById('authLinks').classList.add('hidden');
             document.getElementById('userNav').classList.remove('hidden');
-            document.getElementById('adminNav').classList.add('hidden');
             updateDashboard();
             startProfitTimer();
             startDepositCooldownTimer();
         }
 
-        function showAdminDashboard() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registrationForm').classList.add('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('adminLoginForm').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.remove('hidden');
-            document.getElementById('authLinks').classList.add('hidden');
-            document.getElementById('userNav').classList.add('hidden');
-            document.getElementById('adminNav').classList.remove('hidden');
-            updateAdminDashboard();
-        }
-
         function showProfile() {
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('profileSection').classList.remove('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
             
             // Populate profile data
             document.getElementById('profileName').textContent = currentUser.name;
@@ -922,8 +646,7 @@
                         paymentMethods: {},
                         lastProfitTime: new Date().getTime(),
                         lastDepositTime: 0,
-                        firstDepositDate: 0,
-                        isAdmin: false
+                        firstDepositDate: 0
                     };
                     
                     return db.collection("users").doc(user.uid).set(userData)
@@ -954,25 +677,6 @@
                 });
         }
 
-        function adminLogin() {
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                auth.signInWithEmailAndPassword(ADMIN_CREDENTIALS.email, password)
-                    .then((userCredential) => {
-                        // Admin logged in successfully
-                        // The auth state listener will handle the rest
-                    })
-                    .catch((error) => {
-                        console.error("Admin login error:", error);
-                        alert("Admin login failed: " + error.message);
-                    });
-            } else {
-                alert("Invalid admin credentials");
-            }
-        }
-
         function logout() {
             auth.signOut()
                 .then(() => {
@@ -985,10 +689,6 @@
                 .catch((error) => {
                     console.error("Logout error:", error);
                 });
-        }
-
-        function adminLogout() {
-            logout();
         }
 
         // ================= USER DASHBOARD FUNCTIONS =================
@@ -1345,491 +1045,6 @@
                     document.getElementById('depositCooldown').classList.add('hidden');
                 }
             }, 1000);
-        }
-
-        // ================= ADMIN FUNCTIONS =================
-
-        function updateAdminDashboard() {
-            if (!currentUser || !currentUser.isAdmin) return;
-
-            // Get all users
-            db.collection("users").get()
-                .then(querySnapshot => {
-                    let totalUsers = 0;
-                    let totalDeposits = 0;
-                    let totalWithdrawals = 0;
-                    let totalProfits = 0;
-                    let users = [];
-
-                    querySnapshot.forEach(doc => {
-                        const user = doc.data();
-                        if (!user.isAdmin) {
-                            totalUsers++;
-                            totalDeposits += user.totalDeposited || 0;
-                            totalProfits += user.profit || 0;
-
-                            // Calculate total withdrawals
-                            if (user.transactions) {
-                                user.transactions.forEach(tx => {
-                                    if (tx.type === "Withdraw" && tx.status === "completed") {
-                                        totalWithdrawals += tx.amount;
-                                    }
-                                });
-                            }
-
-                            users.push({
-                                id: doc.id,
-                                ...user
-                            });
-                        }
-                    });
-
-                    // Update stats
-                    document.getElementById('totalUsers').textContent = totalUsers;
-                    document.getElementById('totalAdminDeposits').textContent = `PKR${totalDeposits.toFixed(2)}`;
-                    document.getElementById('totalAdminWithdrawals').textContent = `PKR${totalWithdrawals.toFixed(2)}`;
-                    document.getElementById('totalAdminProfits').textContent = `PKR${totalProfits.toFixed(2)}`;
-
-                    // Update users table
-                    updateAdminUsersTable(users);
-
-                    // Get all deposit requests
-                    const depositRequests = [];
-                    users.forEach(user => {
-                        if (user.depositHistory) {
-                            user.depositHistory.forEach(deposit => {
-                                if (deposit.status === "pending") {
-                                    depositRequests.push({
-                                        userId: user.id,
-                                        userName: user.name,
-                                        ...deposit
-                                    });
-                                }
-                            });
-                        }
-                    });
-
-                    // Update deposits table
-                    updateAdminDepositsTable(depositRequests);
-
-                    // Get all withdrawal requests
-                    const withdrawalRequests = [];
-                    users.forEach(user => {
-                        if (user.transactions) {
-                            user.transactions.forEach(tx => {
-                                if (tx.type === "Withdraw" && tx.status === "pending") {
-                                    withdrawalRequests.push({
-                                        userId: user.id,
-                                        userName: user.name,
-                                        ...tx
-                                    });
-                                }
-                            });
-                        }
-                    });
-
-                    // Update withdrawals table
-                    updateAdminWithdrawalsTable(withdrawalRequests);
-
-                    // Get all transactions
-                    const allTransactions = [];
-                    users.forEach(user => {
-                        if (user.transactions) {
-                            user.transactions.forEach(tx => {
-                                allTransactions.push({
-                                    userId: user.id,
-                                    userName: user.name,
-                                    ...tx
-                                });
-                            });
-                        }
-                    });
-
-                    // Sort by date (newest first)
-                    allTransactions.sort((a, b) => b.date - a.date);
-
-                    // Update transactions table
-                    updateAdminTransactionsTable(allTransactions);
-                })
-                .catch(error => {
-                    console.error("Error getting users:", error);
-                });
-        }
-
-        function updateAdminUsersTable(users) {
-            const tableBody = document.getElementById('adminUsersTable');
-            tableBody.innerHTML = '';
-
-            if (users.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No users found</td></tr>';
-                return;
-            }
-
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                
-                const nameCell = document.createElement('td');
-                nameCell.textContent = user.name;
-                
-                const emailCell = document.createElement('td');
-                emailCell.textContent = user.email;
-                
-                const phoneCell = document.createElement('td');
-                phoneCell.textContent = user.phone;
-                
-                const balanceCell = document.createElement('td');
-                balanceCell.textContent = `PKR${user.balance ? user.balance.toFixed(2) : '0.00'}`;
-                
-                const depositsCell = document.createElement('td');
-                depositsCell.textContent = `PKR${user.totalDeposited ? user.totalDeposited.toFixed(2) : '0.00'}`;
-                
-                const profitCell = document.createElement('td');
-                profitCell.textContent = `PKR${user.profit ? user.profit.toFixed(2) : '0.00'}`;
-                
-                const actionsCell = document.createElement('td');
-                const viewButton = document.createElement('button');
-                viewButton.className = 'btn';
-                viewButton.textContent = 'View';
-                viewButton.onclick = () => viewUser(user.id);
-                actionsCell.appendChild(viewButton);
-                
-                row.appendChild(nameCell);
-                row.appendChild(emailCell);
-                row.appendChild(phoneCell);
-                row.appendChild(balanceCell);
-                row.appendChild(depositsCell);
-                row.appendChild(profitCell);
-                row.appendChild(actionsCell);
-                
-                tableBody.appendChild(row);
-            });
-        }
-
-        function updateAdminDepositsTable(deposits) {
-            const tableBody = document.getElementById('adminDepositsTable');
-            tableBody.innerHTML = '';
-
-            if (deposits.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No deposit requests</td></tr>';
-                return;
-            }
-
-            deposits.forEach(deposit => {
-                const row = document.createElement('tr');
-                
-                const userCell = document.createElement('td');
-                userCell.textContent = deposit.userName;
-                
-                const amountCell = document.createElement('td');
-                amountCell.textContent = `PKR${deposit.amount.toFixed(2)}`;
-                
-                const methodCell = document.createElement('td');
-                methodCell.textContent = deposit.method;
-                
-                const trxCell = document.createElement('td');
-                trxCell.textContent = deposit.trxId;
-                
-                const dateCell = document.createElement('td');
-                dateCell.textContent = new Date(deposit.date).toLocaleString();
-                
-                const statusCell = document.createElement('td');
-                const statusBadge = document.createElement('span');
-                statusBadge.className = deposit.status === 'completed' ? 'badge badge-success' : 'badge badge-warning';
-                statusBadge.textContent = deposit.status;
-                statusCell.appendChild(statusBadge);
-                
-                const actionsCell = document.createElement('td');
-                
-                if (deposit.status === 'pending') {
-                    const approveButton = document.createElement('button');
-                    approveButton.className = 'btn';
-                    approveButton.textContent = 'Approve';
-                    approveButton.onclick = () => approveDeposit(deposit.userId, deposit.trxId);
-                    actionsCell.appendChild(approveButton);
-                    
-                    const rejectButton = document.createElement('button');
-                    rejectButton.className = 'btn btn-danger';
-                    rejectButton.textContent = 'Reject';
-                    rejectButton.onclick = () => rejectDeposit(deposit.userId, deposit.trxId);
-                    actionsCell.appendChild(rejectButton);
-                } else {
-                    actionsCell.textContent = '-';
-                }
-                
-                row.appendChild(userCell);
-                row.appendChild(amountCell);
-                row.appendChild(methodCell);
-                row.appendChild(trxCell);
-                row.appendChild(dateCell);
-                row.appendChild(statusCell);
-                row.appendChild(actionsCell);
-                
-                tableBody.appendChild(row);
-            });
-        }
-
-        function updateAdminWithdrawalsTable(withdrawals) {
-            const tableBody = document.getElementById('adminWithdrawalsTable');
-            tableBody.innerHTML = '';
-
-            if (withdrawals.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No withdrawal requests</td></tr>';
-                return;
-            }
-
-            withdrawals.forEach(withdrawal => {
-                const row = document.createElement('tr');
-                
-                const userCell = document.createElement('td');
-                userCell.textContent = withdrawal.userName;
-                
-                const amountCell = document.createElement('td');
-                amountCell.textContent = `PKR${withdrawal.amount.toFixed(2)}`;
-                
-                const methodCell = document.createElement('td');
-                methodCell.textContent = withdrawal.method;
-                
-                const dateCell = document.createElement('td');
-                dateCell.textContent = new Date(withdrawal.date).toLocaleString();
-                
-                const statusCell = document.createElement('td');
-                const statusBadge = document.createElement('span');
-                statusBadge.className = withdrawal.status === 'completed' ? 'badge badge-success' : 'badge badge-warning';
-                statusBadge.textContent = withdrawal.status;
-                statusCell.appendChild(statusBadge);
-                
-                const actionsCell = document.createElement('td');
-                
-                if (withdrawal.status === 'pending') {
-                    const approveButton = document.createElement('button');
-                    approveButton.className = 'btn';
-                    approveButton.textContent = 'Approve';
-                    approveButton.onclick = () => approveWithdrawal(withdrawal.userId, withdrawal.date);
-                    actionsCell.appendChild(approveButton);
-                    
-                    const rejectButton = document.createElement('button');
-                    rejectButton.className = 'btn btn-danger';
-                    rejectButton.textContent = 'Reject';
-                    rejectButton.onclick = () => rejectWithdrawal(withdrawal.userId, withdrawal.date);
-                    actionsCell.appendChild(rejectButton);
-                } else {
-                    actionsCell.textContent = '-';
-                }
-                
-                row.appendChild(userCell);
-                row.appendChild(amountCell);
-                row.appendChild(methodCell);
-                row.appendChild(dateCell);
-                row.appendChild(statusCell);
-                row.appendChild(actionsCell);
-                
-                tableBody.appendChild(row);
-            });
-        }
-
-        function updateAdminTransactionsTable(transactions) {
-            const tableBody = document.getElementById('adminTransactionsTable');
-            tableBody.innerHTML = '';
-
-            if (transactions.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No transactions</td></tr>';
-                return;
-            }
-
-            transactions.forEach(transaction => {
-                const row = document.createElement('tr');
-                
-                const userCell = document.createElement('td');
-                userCell.textContent = transaction.userName;
-                
-                const typeCell = document.createElement('td');
-                typeCell.textContent = transaction.type;
-                
-                const amountCell = document.createElement('td');
-                amountCell.textContent = `PKR${transaction.amount.toFixed(2)}`;
-                
-                const methodCell = document.createElement('td');
-                methodCell.textContent = transaction.method || '-';
-                
-                const dateCell = document.createElement('td');
-                dateCell.textContent = new Date(transaction.date).toLocaleString();
-                
-                const statusCell = document.createElement('td');
-                const statusBadge = document.createElement('span');
-                statusBadge.className = transaction.status === 'completed' ? 'badge badge-success' : 
-                                          transaction.status === 'pending' ? 'badge badge-warning' : 'badge badge-danger';
-                statusBadge.textContent = transaction.status;
-                statusCell.appendChild(statusBadge);
-                
-                row.appendChild(userCell);
-                row.appendChild(typeCell);
-                row.appendChild(amountCell);
-                row.appendChild(methodCell);
-                row.appendChild(dateCell);
-                row.appendChild(statusCell);
-                
-                tableBody.appendChild(row);
-            });
-        }
-
-        function searchUsers() {
-            const searchTerm = document.getElementById('adminUserSearch').value.toLowerCase();
-            
-            db.collection("users").get()
-                .then(querySnapshot => {
-                    const users = [];
-                    querySnapshot.forEach(doc => {
-                        const user = doc.data();
-                        if (!user.isAdmin && 
-                            (user.name.toLowerCase().includes(searchTerm) || 
-                            user.email.toLowerCase().includes(searchTerm))) {
-                            users.push({
-                                id: doc.id,
-                                ...user
-                            });
-                        }
-                    });
-                    updateAdminUsersTable(users);
-                })
-                .catch(error => {
-                    console.error("Error searching users:", error);
-                });
-        }
-
-        function viewUser(userId) {
-            db.collection("users").doc(userId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const user = doc.data();
-                        alert(`User Details:\n\nName: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phone}\nBalance: PKR${user.balance.toFixed(2)}\nTotal Deposited: PKR${user.totalDeposited.toFixed(2)}\nProfit Earned: PKR${user.profit.toFixed(2)}`);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error getting user:", error);
-                });
-        }
-
-        function approveDeposit(userId, trxId) {
-            db.collection("users").doc(userId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const user = doc.data();
-                        const updatedDepositHistory = user.depositHistory.map(deposit => {
-                            if (deposit.trxId === trxId) {
-                                return { ...deposit, status: "completed" };
-                            }
-                            return deposit;
-                        });
-
-                        // Find the deposit to get the amount
-                        const deposit = user.depositHistory.find(d => d.trxId === trxId);
-                        if (!deposit) return;
-
-                        // Update user document
-                        return db.collection("users").doc(userId).update({
-                            depositHistory: updatedDepositHistory,
-                            transactions: user.transactions.map(tx => {
-                                if (tx.trxId === trxId) {
-                                    return { ...tx, status: "completed" };
-                                }
-                                return tx;
-                            })
-                        });
-                    }
-                })
-                .then(() => {
-                    alert("Deposit approved successfully!");
-                    updateAdminDashboard();
-                })
-                .catch(error => {
-                    console.error("Error approving deposit:", error);
-                    alert("Failed to approve deposit");
-                });
-        }
-
-        function rejectDeposit(userId, trxId) {
-            db.collection("users").doc(userId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const user = doc.data();
-                        const deposit = user.depositHistory.find(d => d.trxId === trxId);
-                        if (!deposit) return;
-
-                        // Update user document
-                        return db.collection("users").doc(userId).update({
-                            balance: user.balance - deposit.amount,
-                            totalDeposited: user.totalDeposited - deposit.amount,
-                            depositHistory: user.depositHistory.filter(d => d.trxId !== trxId),
-                            transactions: user.transactions.filter(tx => tx.trxId !== trxId),
-                            usedTrxIds: user.usedTrxIds.filter(id => id !== trxId)
-                        });
-                    }
-                })
-                .then(() => {
-                    alert("Deposit rejected successfully!");
-                    updateAdminDashboard();
-                })
-                .catch(error => {
-                    console.error("Error rejecting deposit:", error);
-                    alert("Failed to reject deposit");
-                });
-        }
-
-        function approveWithdrawal(userId, withdrawalDate) {
-            db.collection("users").doc(userId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const user = doc.data();
-                        const updatedTransactions = user.transactions.map(tx => {
-                            if (tx.date === withdrawalDate && tx.type === "Withdraw") {
-                                return { ...tx, status: "completed" };
-                            }
-                            return tx;
-                        });
-
-                        return db.collection("users").doc(userId).update({
-                            transactions: updatedTransactions
-                        });
-                    }
-                })
-                .then(() => {
-                    alert("Withdrawal approved successfully!");
-                    updateAdminDashboard();
-                })
-                .catch(error => {
-                    console.error("Error approving withdrawal:", error);
-                    alert("Failed to approve withdrawal");
-                });
-        }
-
-        function rejectWithdrawal(userId, withdrawalDate) {
-            db.collection("users").doc(userId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const user = doc.data();
-                        const withdrawal = user.transactions.find(tx => tx.date === withdrawalDate && tx.type === "Withdraw");
-                        if (!withdrawal) return;
-
-                        // Update user document
-                        return db.collection("users").doc(userId).update({
-                            balance: user.balance + withdrawal.amount,
-                            transactions: user.transactions.map(tx => {
-                                if (tx.date === withdrawalDate && tx.type === "Withdraw") {
-                                    return { ...tx, status: "rejected" };
-                                }
-                                return tx;
-                            })
-                        });
-                    }
-                })
-                .then(() => {
-                    alert("Withdrawal rejected successfully!");
-                    updateAdminDashboard();
-                })
-                .catch(error => {
-                    console.error("Error rejecting withdrawal:", error);
-                    alert("Failed to reject withdrawal");
-                });
         }
 
         // Initialize the app when the page loads
