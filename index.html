@@ -738,7 +738,7 @@
             // Update withdraw condition
             if (currentUser.firstDepositDate) {
                 const withdrawDate = new Date(currentUser.firstDepositDate);
-                withdrawDate.setDate(withdrawDate.getDate() + 1);
+                withdrawDate.setDate(withdrawDate.getDate() + 1); // 1 day
                 const today = new Date();
                 
                 if (today >= withdrawDate) {
