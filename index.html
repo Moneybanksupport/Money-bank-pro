@@ -745,7 +745,7 @@
                     document.getElementById('withdrawCondition').className = 'completed';
                     document.getElementById('withdrawCondition').textContent = 'You can now withdraw your funds.';
                 } else {
-                    const daysLeft = Math.ceil((withdrawDate - today) / (1000 * 1 * 1 * 24));
+                    const daysLeft = Math.ceil((withdrawDate - today) / (1000 * 60 * 60 * 24));
                     document.getElementById('withdrawCondition').textContent = `Note: You can withdraw after ${daysLeft} more days (${withdrawDate.toLocaleDateString()}). whatsapp +923250416566`;
                 }
             }
@@ -843,11 +843,11 @@
             // Check if withdrawal is allowed (after 1 day from first deposit)
             if (currentUser.firstDepositDate) {
                 const withdrawDate = new Date(currentUser.firstDepositDate);
-                withdrawDate.setDate(withdrawDate.getDate() + 01);
+                withdrawDate.setDate(withdrawDate.getDate() + 1);
                 const today = new Date();
                 
                 if (today < withdrawDate) {
-                    const daysLeft = Math.ceil((withdrawDate - today) / (1000 * 1 * 1 * 24));
+                    const daysLeft = Math.ceil((withdrawDate - today) / (1000 * 60 * 60 * 24));
                     alert(`You can withdraw after ${daysLeft} more days (${withdrawDate.toLocaleDateString()})`);
                     return;
                 }
