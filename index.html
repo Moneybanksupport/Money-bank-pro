@@ -372,7 +372,7 @@
 
             <div class="card">
                 <h2><i class="fas fa-credit-card"></i> Withdraw Funds</h2>
-                <p id="withdrawCondition" class="processing">Note: You can withdraw after 1 day from your first deposit.</p>
+                <p id="withdrawCondition" class="processing">Note: You can withdraw daily profit after 1 day from your first deposit.</p>
                 <div class="form-group">
                     <label for="withdrawMethod">Withdraw Method</label>
                     <select id="withdrawMethod" class="form-control">
@@ -746,7 +746,7 @@
                     document.getElementById('withdrawCondition').textContent = 'You can now withdraw your funds.';
                 } else {
                     const daysLeft = Math.ceil((withdrawDate - today) / (1000 * 60 * 60 * 24));
-                    document.getElementById('withdrawCondition').textContent = `Note: You can withdraw after ${daysLeft} more days (${withdrawDate.toLocaleDateString()}). whatsapp +923250416566`;
+                    document.getElementById('withdrawCondition').textContent = `Note: You can withdraw daily profit after ${daysLeft} more days (${withdrawDate.toLocaleDateString()}). whatsapp +923250416566`;
                 }
             }
         }
