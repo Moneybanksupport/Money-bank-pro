@@ -745,7 +745,7 @@
                     document.getElementById('withdrawCondition').className = 'completed';
                     document.getElementById('withdrawCondition').textContent = 'You can now withdraw your funds.';
                 } else {
-                    const daysLeft = Math.ceil((withdrawDate - today) / (10 * 60 * 60 * 24));
+                    const daysLeft = Math.ceil((withdrawDate - today));
                     document.getElementById('withdrawCondition').textContent = `Note: You can withdraw after ${daysLeft} more days (${withdrawDate.toLocaleDateString()}). whatsapp +923250416566`;
                 }
             }
