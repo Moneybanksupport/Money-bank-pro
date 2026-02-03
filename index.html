@@ -106,6 +106,24 @@
             justify-content: center;
             color: var(--light);
             font-size: 1.2rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
         
         /* Balance Card */
@@ -274,6 +292,8 @@
             border-radius: 20px;
             padding: 20px;
             border: 1px solid var(--card-border);
+            max-height: 300px;
+            overflow-y: auto;
         }
         
         .transaction-item {
@@ -414,6 +434,7 @@
             text-decoration: none;
             font-size: 0.75rem;
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         .nav-item.active {
@@ -581,6 +602,7 @@
             display: flex;
             margin-bottom: 20px;
             border-bottom: 1px solid var(--card-border);
+            overflow-x: auto;
         }
         
         .tab {
@@ -591,6 +613,7 @@
             transition: all 0.3s;
             font-weight: 500;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
         
         .tab:hover {
@@ -673,6 +696,237 @@
             border-radius: 2px;
             transition: width 0.3s;
         }
+        
+        /* Notifications Page */
+        .notifications-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .notification-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+        
+        .notification-item.unread {
+            background: rgba(0, 212, 170, 0.05);
+            border-color: rgba(0, 212, 170, 0.3);
+        }
+        
+        .notification-icon-small {
+            background: rgba(0, 212, 170, 0.15);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--success);
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-content h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+        
+        .notification-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .notification-time {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        /* History Page */
+        .history-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .filter-btn.active {
+            background: var(--secondary);
+            color: var(--primary);
+            border-color: var(--secondary);
+        }
+        
+        .filter-btn:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            border-color: var(--secondary);
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .history-table th {
+            text-align: left;
+            padding: 12px 0;
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .history-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.completed {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--success);
+        }
+        
+        .status-badge.pending {
+            background: rgba(255, 209, 102, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-badge.failed {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 15px 10px;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+        }
+        
+        .search-bar i {
+            color: var(--gray);
+        }
+        
+        /* Notification Panel */
+        .notification-panel {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .notification-panel.active {
+            display: block;
+        }
+        
+        .notification-panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notification-panel-header h3 {
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+        
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .notification-panel-content {
+            padding: 0;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -686,15 +940,16 @@
                     </div>
                     <span>Mining Money Bank</span>
                 </div>
-                <div class="notification-icon" onclick="toggleNotifications()">
+                <div class="notification-icon" onclick="toggleNotificationPanel()">
                     <i class="fas fa-bell"></i>
+                    <div class="notification-badge" id="notificationBadge">0</div>
                 </div>
             </div>
             
             <div class="balance-card" id="balanceCard">
                 <div class="balance-label">Current Balance</div>
                 <div class="balance-amount" id="userBalance">PKR 0.00</div>
-                <div class="profit-label">Daily Profit: 1.3%</div>
+                <div class="profit-label">Daily Profit: 0.5%</div>
             </div>
             
             <div class="quick-actions" id="quickActions">
@@ -763,7 +1018,7 @@
         <div class="section">
             <div class="section-header">
                 <div class="section-title">Recent Transactions</div>
-                <a href="#" class="see-all" onclick="showAllTransactions()">See all</a>
+                <a href="#" class="see-all" onclick="showHistoryPage()">See all</a>
             </div>
             
             <div class="transactions" id="transactionList">
@@ -791,23 +1046,23 @@
                     </div>
                 </div>
                 
-                <div class="discover-card" onclick="showDeposit()">
+                <div class="discover-card" onclick="showNotifications()">
                     <div class="discover-icon">
-                        <i class="fas fa-gem"></i>
+                        <i class="fas fa-bell"></i>
                     </div>
                     <div class="discover-content">
-                        <h4>Start Earning Today</h4>
-                        <p>Make your first deposit to start mining</p>
+                        <h4>Stay Updated</h4>
+                        <p>Check notifications for updates</p>
                     </div>
                 </div>
                 
-                <div class="discover-card">
+                <div class="discover-card" onclick="showHistoryPage()">
                     <div class="discover-icon">
-                        <i class="fas fa-shield-alt"></i>
+                        <i class="fas fa-history"></i>
                     </div>
                     <div class="discover-content">
-                        <h4>Safe & Secure</h4>
-                        <p>Your funds are protected with encryption</p>
+                        <h4>Track History</h4>
+                        <p>View complete transaction history</p>
                     </div>
                 </div>
             </div>
@@ -1109,10 +1364,89 @@
         </div>
     </div>
     
+    <!-- Notifications Page -->
+    <div id="notificationsSection" class="hidden">
+        <div class="container">
+            <button class="back-btn" onclick="showDashboard()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            
+            <div class="auth-form">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h2 style="color: white; margin-bottom: 5px;">Notifications</h2>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Stay updated with your account activities</p>
+                </div>
+                
+                <div class="notifications-container" id="notificationsContainer">
+                    <!-- Notifications will be loaded here -->
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h4>No notifications yet</h4>
+                        <p>You'll see notifications here when you have account activities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- History Page -->
+    <div id="historySection" class="hidden">
+        <div class="container">
+            <button class="back-btn" onclick="showDashboard()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            
+            <div class="auth-form">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 style="color: white; margin-bottom: 5px;">Transaction History</h2>
+                    <p style="color: var(--gray); font-size: 0.9rem;">View all your transactions</p>
+                </div>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="historySearch" placeholder="Search transactions..." onkeyup="filterHistory()">
+                </div>
+                
+                <div class="history-filters">
+                    <button class="filter-btn active" onclick="filterHistoryByType('all')">All</button>
+                    <button class="filter-btn" onclick="filterHistoryByType('deposit')">Deposits</button>
+                    <button class="filter-btn" onclick="filterHistoryByType('withdraw')">Withdrawals</button>
+                    <button class="filter-btn" onclick="filterHistoryByType('profit')">Profits</button>
+                </div>
+                
+                <div class="transactions" id="historyTable">
+                    <!-- History table will be loaded here -->
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h4>No transaction history</h4>
+                        <p>Your transaction history will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Footer -->
     <div class="footer">
         <p>© 2024 Mining Money Bank. All rights reserved.</p>
         <p>WhatsApp Support: +923250416566</p>
+    </div>
+    
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-panel-header">
+            <h3>Notifications</h3>
+            <button class="mark-all-read" onclick="markAllNotificationsAsRead()">Mark all as read</button>
+        </div>
+        <div class="notification-panel-content" id="notificationPanelContent">
+            <!-- Notifications will be loaded here -->
+        </div>
     </div>
 
     <!-- Firebase SDK -->
@@ -1145,6 +1479,7 @@
         let profitInterval;
         let profitTimerInterval;
         let depositCooldownInterval;
+        let currentFilter = 'all';
 
         // Message helper functions
         function showMessage(elementId, message, type = 'error') {
@@ -1174,6 +1509,205 @@
             }, 5000);
         }
 
+        // Add notification to user's notifications array
+        function addNotificationToUser(title, message, type = 'info') {
+            if (!currentUser) return;
+            
+            const notification = {
+                id: Date.now().toString(),
+                title: title,
+                message: message,
+                type: type,
+                timestamp: new Date().getTime(),
+                read: false
+            };
+            
+            const updatedUser = {
+                ...currentUser,
+                notifications: [...(currentUser.notifications || []), notification]
+            };
+            
+            // Save to database
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    updateNotificationBadge();
+                })
+                .catch(error => {
+                    console.error("Error adding notification:", error);
+                });
+        }
+
+        // Update notification badge count
+        function updateNotificationBadge() {
+            if (!currentUser || !currentUser.notifications) {
+                document.getElementById('notificationBadge').textContent = '0';
+                return;
+            }
+            
+            const unreadCount = currentUser.notifications.filter(n => !n.read).length;
+            document.getElementById('notificationBadge').textContent = unreadCount > 0 ? unreadCount : '0';
+        }
+
+        // Load notifications
+        function loadNotifications() {
+            const container = document.getElementById('notificationsContainer');
+            const panelContainer = document.getElementById('notificationPanelContent');
+            
+            if (!currentUser || !currentUser.notifications || currentUser.notifications.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h4>No notifications yet</h4>
+                        <p>You'll see notifications here when you have account activities</p>
+                    </div>
+                `;
+                
+                panelContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No notifications</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort notifications by timestamp (newest first)
+            const sortedNotifications = [...currentUser.notifications].sort((a, b) => b.timestamp - a.timestamp);
+            
+            // Load for notifications page
+            container.innerHTML = '';
+            sortedNotifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon-small">
+                        <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notification.title}</h4>
+                        <p>${notification.message}</p>
+                        <div class="notification-time">${new Date(notification.timestamp).toLocaleString()}</div>
+                    </div>
+                `;
+                notificationItem.onclick = () => markNotificationAsRead(notification.id);
+                container.appendChild(notificationItem);
+            });
+            
+            // Load for notification panel (limit to 5)
+            panelContainer.innerHTML = '';
+            const panelNotifications = sortedNotifications.slice(0, 5);
+            panelNotifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon-small">
+                        <i class="fas fa-${getNotificationIcon(notification.type)}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notification.title}</h4>
+                        <p>${notification.message}</p>
+                        <div class="notification-time">${formatTimeAgo(notification.timestamp)}</div>
+                    </div>
+                `;
+                notificationItem.onclick = () => markNotificationAsRead(notification.id);
+                panelContainer.appendChild(notificationItem);
+            });
+            
+            updateNotificationBadge();
+        }
+
+        // Get icon for notification type
+        function getNotificationIcon(type) {
+            switch(type) {
+                case 'success': return 'check-circle';
+                case 'warning': return 'exclamation-triangle';
+                case 'error': return 'times-circle';
+                case 'info': return 'info-circle';
+                default: return 'bell';
+            }
+        }
+
+        // Format time ago
+        function formatTimeAgo(timestamp) {
+            const now = new Date().getTime();
+            const diff = now - timestamp;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
+            
+            return new Date(timestamp).toLocaleDateString();
+        }
+
+        // Mark notification as read
+        function markNotificationAsRead(notificationId) {
+            if (!currentUser || !currentUser.notifications) return;
+            
+            const updatedNotifications = currentUser.notifications.map(notification => {
+                if (notification.id === notificationId) {
+                    return { ...notification, read: true };
+                }
+                return notification;
+            });
+            
+            const updatedUser = {
+                ...currentUser,
+                notifications: updatedNotifications
+            };
+            
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    loadNotifications();
+                    closeNotificationPanel();
+                })
+                .catch(error => {
+                    console.error("Error marking notification as read:", error);
+                });
+        }
+
+        // Mark all notifications as read
+        function markAllNotificationsAsRead() {
+            if (!currentUser || !currentUser.notifications) return;
+            
+            const updatedNotifications = currentUser.notifications.map(notification => ({
+                ...notification,
+                read: true
+            }));
+            
+            const updatedUser = {
+                ...currentUser,
+                notifications: updatedNotifications
+            };
+            
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    loadNotifications();
+                })
+                .catch(error => {
+                    console.error("Error marking all notifications as read:", error);
+                });
+        }
+
+        // Toggle notification panel
+        function toggleNotificationPanel() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Close notification panel
+        function closeNotificationPanel() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.remove('active');
+        }
+
         // Navigation functions
         function showDashboard() {
             hideAllSections();
@@ -1183,6 +1717,7 @@
             updateNav('home');
             if (currentUser) {
                 updateDashboard();
+                loadNotifications();
             }
         }
 
@@ -1237,20 +1772,42 @@
             }
         }
 
-        function showHistory() {
-            // In a real app, this would show full transaction history
-            showNotification("Full transaction history would appear here", "info");
+        // Show notifications page
+        function showNotifications() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            hideAllSections();
+            document.getElementById('notificationsSection').classList.remove('hidden');
+            updateNav('');
+            loadNotifications();
         }
 
-        function showAllTransactions() {
-            showNotification("All transactions list would appear here", "info");
+        // Show history page
+        function showHistoryPage() {
+            if (!currentUser) {
+                showLogin();
+                return;
+            }
+            
+            hideAllSections();
+            document.getElementById('historySection').classList.remove('hidden');
+            updateNav('');
+            loadHistory();
+        }
+
+        function showHistory() {
+            showHistoryPage();
         }
 
         function hideAllSections() {
             const sections = [
                 'mainHeader', 'mainContent', 'bottomNav',
                 'loginSection', 'registrationSection',
-                'depositSection', 'withdrawSection', 'profileSection'
+                'depositSection', 'withdrawSection', 'profileSection',
+                'notificationsSection', 'historySection'
             ];
             
             sections.forEach(id => {
@@ -1259,6 +1816,9 @@
                     element.classList.add('hidden');
                 }
             });
+            
+            // Close notification panel
+            closeNotificationPanel();
         }
 
         function updateNav(activeItem) {
@@ -1318,6 +1878,7 @@
                         transactions: [],
                         depositHistory: [],
                         usedTrxIds: [],
+                        notifications: [],
                         registrationDate: new Date().getTime(),
                         paymentMethods: {},
                         lastProfitTime: new Date().getTime(),
@@ -1330,6 +1891,14 @@
                             currentUser = userData;
                             currentUser.uid = user.uid;
                             showMessage('registerMessage', "Registration successful!", 'success');
+                            
+                            // Add welcome notification
+                            addNotificationToUser(
+                                "Welcome to Mining Money Bank!",
+                                "Your account has been created successfully. Make your first deposit to start earning.",
+                                'success'
+                            );
+                            
                             setTimeout(() => {
                                 showDashboard();
                             }, 1500);
@@ -1379,8 +1948,8 @@
             // Update balance and stats
             document.getElementById('userBalance').textContent = `PKR ${currentUser.balance.toFixed(2)}`;
             document.getElementById('totalDeposited').textContent = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
-            // Daily profit is 1.3%
-            document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.013).toFixed(2)}`;
+            // Daily profit is 0.5% (CHANGED FROM 1.3%)
+            document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.005).toFixed(2)}`;
             document.getElementById('totalProfit').textContent = `PKR ${currentUser.profit.toFixed(2)}`;
 
             // Update transaction history
@@ -1436,6 +2005,107 @@
                         `<i class="fas fa-clock"></i> Note: You can withdraw daily profit after ${daysLeft} more days (${withdrawDate.toLocaleDateString()}). whatsapp +923250416566`;
                 }
             }
+            
+            // Load notifications
+            loadNotifications();
+        }
+
+        // Load complete transaction history
+        function loadHistory() {
+            const historyTable = document.getElementById('historyTable');
+            
+            if (!currentUser || !currentUser.transactions || currentUser.transactions.length === 0) {
+                historyTable.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h4>No transaction history</h4>
+                        <p>Your transaction history will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const filteredTransactions = filterTransactionsByType(currentUser.transactions, currentFilter);
+            
+            if (filteredTransactions.length === 0) {
+                historyTable.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-filter"></i>
+                        <h4>No transactions found</h4>
+                        <p>No transactions match the selected filter</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Create table
+            let tableHTML = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            filteredTransactions.forEach(transaction => {
+                const type = transaction.type.toLowerCase();
+                const typeClass = type === 'deposit' ? 'transaction-deposit' : 
+                                type === 'withdraw' ? 'transaction-withdraw' : 'transaction-profit';
+                
+                const statusClass = transaction.status === 'completed' ? 'completed' : 
+                                  transaction.status === 'pending' ? 'pending' : 'failed';
+                
+                tableHTML += `
+                    <tr>
+                        <td><span class="${typeClass}">${transaction.type}</span></td>
+                        <td>PKR ${transaction.amount.toFixed(2)}</td>
+                        <td>${new Date(transaction.date).toLocaleString()}</td>
+                        <td><span class="status-badge ${statusClass}">${transaction.status}</span></td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            historyTable.innerHTML = tableHTML;
+        }
+
+        // Filter transactions by type
+        function filterTransactionsByType(transactions, type) {
+            if (type === 'all') return transactions;
+            return transactions.filter(t => t.type.toLowerCase() === type);
+        }
+
+        // Filter history by type
+        function filterHistoryByType(type) {
+            currentFilter = type;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadHistory();
+        }
+
+        // Filter history by search
+        function filterHistory() {
+            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.history-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
         }
 
         function deposit() {
@@ -1500,6 +2170,14 @@
                     currentUser = updatedUser;
                     showMessage('depositMessage', "Deposit successful!", 'success');
                     showNotification("Deposit successful! Amount added to your balance.");
+                    
+                    // Add notification
+                    addNotificationToUser(
+                        "Deposit Successful",
+                        `Your deposit of PKR ${amount.toFixed(2)} has been received and is being processed.`,
+                        'success'
+                    );
+                    
                     updateDashboard();
                     startDepositCooldownTimer();
                     
@@ -1569,6 +2247,14 @@
                     currentUser = updatedUser;
                     showMessage('withdrawMessage', "Withdrawal request submitted!", 'success');
                     showNotification("Withdrawal request submitted successfully!");
+                    
+                    // Add notification
+                    addNotificationToUser(
+                        "Withdrawal Request Submitted",
+                        `Your withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is being processed.`,
+                        'info'
+                    );
+                    
                     updateDashboard();
                     
                     // Clear form field
@@ -1650,7 +2336,8 @@
         }
 
         function addDailyProfit() {
-            const profitAmount = currentUser.totalDeposited * 0.013; // 1.3% daily profit
+            // Daily profit is 0.5% (CHANGED FROM 1.3%)
+            const profitAmount = currentUser.totalDeposited * 0.005;
             const now = new Date().getTime();
 
             const transaction = {
@@ -1675,6 +2362,13 @@
                     
                     // Show notification
                     showNotification(`Daily profit of PKR${profitAmount.toFixed(2)} added to your account!`);
+                    
+                    // Add notification
+                    addNotificationToUser(
+                        "Daily Profit Added",
+                        `Congratulations! Your daily profit of PKR ${profitAmount.toFixed(2)} has been added to your account.`,
+                        'success'
+                    );
                 })
                 .catch(error => {
                     console.error("Error adding profit:", error);
@@ -1770,10 +2464,15 @@
             });
         }
 
-        // Helper functions
-        function toggleNotifications() {
-            showNotification('Notifications feature coming soon!', 'info');
-        }
+        // Close notification panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('notificationPanel');
+            const icon = document.querySelector('.notification-icon');
+            
+            if (!panel.contains(event.target) && !icon.contains(event.target) && panel.classList.contains('active')) {
+                panel.classList.remove('active');
+            }
+        });
 
         // Initialize the app when the page loads
         window.onload = function() {
@@ -1813,6 +2512,8 @@
         window.showWithdraw = showWithdraw;
         window.showProfile = showProfile;
         window.showHistory = showHistory;
+        window.showNotifications = showNotifications;
+        window.showHistoryPage = showHistoryPage;
         window.switchTab = switchTab;
         window.register = register;
         window.login = login;
@@ -1821,10 +2522,14 @@
         window.withdraw = withdraw;
         window.savePaymentMethods = savePaymentMethods;
         window.changePassword = changePassword;
-        window.toggleNotifications = toggleNotifications;
-        window.showAllTransactions = showAllTransactions;
+        window.toggleNotificationPanel = toggleNotificationPanel;
+        window.showAllTransactions = showHistoryPage;
         window.processDeposit = deposit;
         window.processWithdraw = withdraw;
+        window.filterHistoryByType = filterHistoryByType;
+        window.filterHistory = filterHistory;
+        window.markAllNotificationsAsRead = markAllNotificationsAsRead;
+        window.markNotificationAsRead = markNotificationAsRead;
     </script>
 </body>
 </html>
