@@ -21,6 +21,7 @@
             --danger: #FF6B6B;
             --warning: #FFD166;
             --info: #6C5CE7;
+            --premium: #FFD700;           /* Gold for premium users */
         }
         
         * {
@@ -166,6 +167,28 @@
             color: var(--secondary);
             font-size: 0.9rem;
             font-weight: 600;
+        }
+        
+        /* User Type Badge */
+        .user-type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .user-type-badge.premium {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--premium);
+            border: 1px solid var(--premium);
+        }
+        
+        .user-type-badge.regular {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
         }
         
         /* Quick Actions */
@@ -610,6 +633,12 @@
             border-left: 4px solid var(--danger);
         }
         
+        .withdraw-condition.premium {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--premium);
+            border-left: 4px solid var(--premium);
+        }
+        
         /* Tabs */
         .tabs {
             display: flex;
@@ -940,6 +969,31 @@
             cursor: pointer;
             padding: 5px;
         }
+        
+        /* Info Box */
+        .info-box {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+        
+        .info-box i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+        
+        .info-box.premium {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--premium);
+        }
+        
+        .info-box.premium i {
+            color: var(--premium);
+        }
     </style>
 </head>
 <body>
@@ -963,6 +1017,7 @@
                 <div class="balance-label">Current Balance</div>
                 <div class="balance-amount" id="userBalance">PKR 0.00</div>
                 <div class="profit-label">Daily Profit: 1.3%</div>
+                <div id="userTypeBadge" class="user-type-badge regular hidden">Regular User</div>
             </div>
             
             <div class="quick-actions" id="quickActions">
@@ -1025,6 +1080,12 @@
                 <div class="stat-value" id="nextProfit">00:00</div>
                 <div class="stat-label">Next Profit</div>
             </div>
+        </div>
+        
+        <!-- Withdrawal Info -->
+        <div class="info-box" id="withdrawalInfoBox">
+            <i class="fas fa-info-circle"></i>
+            <span id="withdrawalInfoText">Loading withdrawal information...</span>
         </div>
         
         <!-- Recent Transactions -->
@@ -1218,11 +1279,17 @@
                     <p style="color: var(--gray); font-size: 0.9rem;">Add funds to your account</p>
                 </div>
                 
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Minimum Deposit: PKR 5,000</strong><br>
+                    <small>Deposit PKR 50,000 or more to become a PREMIUM user and get daily withdrawal access!</small>
+                </div>
+                
                 <div id="depositMessage" class="message hidden"></div>
                 
                 <div class="form-group">
                     <label for="depositAmount">Amount (PKR)</label>
-                    <input type="number" id="depositAmount" class="form-control" placeholder="Enter amount">
+                    <input type="number" id="depositAmount" class="form-control" placeholder="Enter amount (min 5000)" min="5000">
                 </div>
                 
                 <div class="form-group">
@@ -1272,6 +1339,12 @@
                     Loading withdrawal conditions...
                 </div>
                 
+                <!-- Available Profit Info -->
+                <div class="info-box" id="availableProfitInfo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Available Profit for Withdrawal: PKR <span id="availableProfit">0.00</span></span>
+                </div>
+                
                 <div class="form-group">
                     <label for="withdrawAmount">Amount (PKR)</label>
                     <input type="number" id="withdrawAmount" class="form-control" placeholder="Enter amount">
@@ -1308,6 +1381,7 @@
                     </div>
                     <h3 id="profileName" style="color: white;">User Name</h3>
                     <p id="profileEmail" style="color: var(--gray);">user@example.com</p>
+                    <div id="profileUserType" class="user-type-badge regular">Regular User</div>
                 </div>
                 
                 <div class="tabs">
@@ -1332,6 +1406,14 @@
                     <div class="form-group">
                         <label>Registration Date</label>
                         <input type="text" id="profileRegDate" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <input type="text" id="profileAccountType" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Deposit</label>
+                        <input type="text" id="profileTotalDeposit" class="form-control" disabled>
                     </div>
                 </div>
                 
@@ -1760,6 +1842,7 @@
             if (currentUser) {
                 setTimeout(() => {
                     checkWithdrawalConditions();
+                    updateAvailableProfit();
                 }, 100);
             }
         }
@@ -1782,6 +1865,15 @@
             document.getElementById('profileEmailInput').value = currentUser.email;
             document.getElementById('profilePhoneInput').value = currentUser.phone;
             document.getElementById('profileRegDate').value = new Date(currentUser.registrationDate).toLocaleString();
+            
+            // Set account type
+            const userType = currentUser.totalDeposited >= 50000 ? 'premium' : 'regular';
+            document.getElementById('profileAccountType').value = userType === 'premium' ? 'Premium User (Daily Withdrawal)' : 'Regular User (Monthly Withdrawal)';
+            document.getElementById('profileTotalDeposit').value = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
+            
+            const profileUserType = document.getElementById('profileUserType');
+            profileUserType.textContent = userType === 'premium' ? 'Premium User' : 'Regular User';
+            profileUserType.className = `user-type-badge ${userType}`;
             
             // Load payment methods if they exist
             if (currentUser.paymentMethods) {
@@ -1871,6 +1963,43 @@
 
         // ==================== WITHDRAWAL CONDITIONS ====================
         
+        function updateWithdrawalInfo() {
+            if (!currentUser) return;
+            
+            const infoBox = document.getElementById('withdrawalInfoBox');
+            const infoText = document.getElementById('withdrawalInfoText');
+            
+            if (currentUser.totalDeposited >= 50000) {
+                infoBox.className = 'info-box premium';
+                infoText.innerHTML = '<strong>Premium User:</strong> You can withdraw DAILY from your profits only. Deposit amount is locked.';
+            } else {
+                infoBox.className = 'info-box';
+                infoText.innerHTML = '<strong>Regular User:</strong> You can withdraw on the 1st of each month from your profits only. Deposit amount is locked. Deposit PKR 50,000+ to become Premium!';
+            }
+        }
+        
+        function updateAvailableProfit() {
+            if (!currentUser) return;
+            
+            const availableProfit = currentUser.profit || 0;
+            document.getElementById('availableProfit').textContent = availableProfit.toFixed(2);
+        }
+        
+        function updateUserTypeBadge() {
+            if (!currentUser) return;
+            
+            const badge = document.getElementById('userTypeBadge');
+            if (currentUser.totalDeposited >= 50000) {
+                badge.textContent = 'Premium User';
+                badge.className = 'user-type-badge premium';
+                badge.classList.remove('hidden');
+            } else {
+                badge.textContent = 'Regular User';
+                badge.className = 'user-type-badge regular';
+                badge.classList.remove('hidden');
+            }
+        }
+        
         function checkWithdrawalConditions() {
             if (!currentUser) return false;
             
@@ -1882,6 +2011,36 @@
             const currentMonth = today.getMonth(); // 0-based (0 = January)
             const currentYear = today.getFullYear();
             
+            const isPremium = currentUser.totalDeposited >= 50000;
+            
+            // شرط 1: Premium users daily withdraw kar sakte hain
+            if (isPremium) {
+                // شرط 2: صرف profit mein se withdrawal
+                const availableProfit = currentUser.profit || 0;
+                
+                if (availableProfit <= 0) {
+                    conditionDiv.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>No Profit Available:</strong><br>
+                        You don't have any profit to withdraw. Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.
+                    `;
+                    conditionDiv.className = 'withdraw-condition error';
+                    return false;
+                }
+                
+                conditionDiv.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 
+                    <strong>Premium Withdrawal Available:</strong><br>
+                    ✅ Daily withdrawal allowed<br>
+                    ✅ You can withdraw from your profits only<br>
+                    ✅ Deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked<br>
+                    Available profit: <strong>PKR ${availableProfit.toFixed(2)}</strong>
+                `;
+                conditionDiv.className = 'withdraw-condition premium';
+                return true;
+            }
+            
+            // Regular users ke liye
             // شرط 1: صرف مہینے کے پہلے دن
             if (currentDay !== 1) {
                 const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
@@ -1889,10 +2048,11 @@
                 
                 conditionDiv.innerHTML = `
                     <i class="fas fa-calendar-times"></i> 
-                    <strong>Withdrawal Restriction:</strong><br>
+                    <strong>Regular User - Withdrawal Restriction:</strong><br>
                     Withdrawal is only allowed on <strong>1st of each month</strong>.<br>
                     Next withdrawal date: <strong>${nextMonthDate.toLocaleDateString()}</strong><br>
-                    Days remaining: <strong>${daysLeft} days</strong>
+                    Days remaining: <strong>${daysLeft} days</strong><br>
+                    <small>Upgrade to Premium (PKR 50,000+ deposit) for daily withdrawals!</small>
                 `;
                 conditionDiv.className = 'withdraw-condition error';
                 return false;
@@ -1922,45 +2082,27 @@
                 }
             }
             
-            // شرط 3: کم از کم 1 دن پہلے deposit ہونا چاہیے
-            if (currentUser.firstDepositDate) {
-                const depositDate = new Date(currentUser.firstDepositDate);
-                const daysSinceDeposit = Math.floor((today - depositDate) / (1000 * 60 * 60 * 24));
-                
-                if (daysSinceDeposit < 1) {
-                    const daysLeft = 1 - daysSinceDeposit;
-                    const availableDate = new Date(depositDate);
-                    availableDate.setDate(availableDate.getDate() + 1);
-                    
-                    conditionDiv.innerHTML = `
-                        <i class="fas fa-clock"></i> 
-                        <strong>Deposit Requirement:</strong><br>
-                        You must wait <strong>${daysLeft} more day(s)</strong> after your first deposit.<br>
-                        Withdrawal available from: <strong>${availableDate.toLocaleDateString()}</strong>
-                    `;
-                    conditionDiv.className = 'withdraw-condition error';
-                    return false;
-                }
-            } else {
+            // شرط 3: صرف profit mein se withdrawal
+            const availableProfit = currentUser.profit || 0;
+            
+            if (availableProfit <= 0) {
                 conditionDiv.innerHTML = `
                     <i class="fas fa-exclamation-triangle"></i> 
-                    <strong>No Deposit Found:</strong><br>
-                    You need to make a deposit first before withdrawing.
+                    <strong>No Profit Available:</strong><br>
+                    You don't have any profit to withdraw. Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.
                 `;
                 conditionDiv.className = 'withdraw-condition error';
                 return false;
             }
             
             // تمام شرائط پوری ہونے پر
-            const maxWithdrawal = currentUser.balance;
-            
             conditionDiv.innerHTML = `
                 <i class="fas fa-check-circle"></i> 
-                <strong>Withdrawal Available:</strong><br>
+                <strong>Regular User - Withdrawal Available:</strong><br>
                 ✅ Today is 1st of the month<br>
                 ✅ No withdrawal made this month<br>
-                ✅ Deposit requirement satisfied<br>
-                Maximum withdrawal amount: <strong>PKR ${maxWithdrawal.toFixed(2)}</strong>
+                Available profit for withdrawal: <strong>PKR ${availableProfit.toFixed(2)}</strong><br>
+                <small>Note: Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.</small>
             `;
             conditionDiv.className = 'withdraw-condition success';
             return true;
@@ -2012,7 +2154,7 @@
                             // Add welcome notification
                             addNotificationToUser(
                                 "Welcome to Mining Money Bank!",
-                                "Your account has been created successfully. Make your first deposit to start earning.",
+                                "Your account has been created successfully. Make your first deposit of minimum PKR 5,000 to start earning.",
                                 'success'
                             );
                             
@@ -2068,9 +2210,14 @@
             document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.013).toFixed(2)}`;
             document.getElementById('totalProfit').textContent = `PKR ${currentUser.profit.toFixed(2)}`;
 
+            // Update user type badge and withdrawal info
+            updateUserTypeBadge();
+            updateWithdrawalInfo();
+
             // Update withdrawal condition if on withdraw page
             if (document.getElementById('withdrawCondition')) {
                 checkWithdrawalConditions();
+                updateAvailableProfit();
             }
             
             // Update transaction history
@@ -2246,6 +2393,12 @@
                 return;
             }
 
+            // Minimum deposit check
+            if (amount < 5000) {
+                showMessage('depositMessage', "Minimum deposit amount is PKR 5,000", 'error');
+                return;
+            }
+
             if (!trxId) {
                 showMessage('depositMessage', "Please enter a transaction ID", 'error');
                 return;
@@ -2277,11 +2430,16 @@
                 status: "pending"
             };
 
+            // Determine if user becomes premium after this deposit
+            const newTotalDeposited = currentUser.totalDeposited + amount;
+            const wasPremium = currentUser.totalDeposited >= 50000;
+            const becomesPremium = newTotalDeposited >= 50000 && !wasPremium;
+
             // Update user data
             const updatedUser = {
                 ...currentUser,
                 balance: currentUser.balance + amount,
-                totalDeposited: currentUser.totalDeposited + amount,
+                totalDeposited: newTotalDeposited,
                 lastDepositTime: now,
                 transactions: [...(currentUser.transactions || []), transaction],
                 depositHistory: [...(currentUser.depositHistory || []), transaction],
@@ -2296,15 +2454,25 @@
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
-                    showMessage('depositMessage', "Deposit successful!", 'success');
-                    showNotification("Deposit successful! Amount added to your balance.");
                     
-                    // Add notification
-                    addNotificationToUser(
-                        "Deposit Successful",
-                        `Your deposit of PKR ${amount.toFixed(2)} has been received and is being processed.`,
-                        'success'
-                    );
+                    let successMessage = "Deposit successful! Amount added to your balance.";
+                    if (becomesPremium) {
+                        successMessage += " Congratulations! You are now a PREMIUM user and can withdraw daily from your profits!";
+                        addNotificationToUser(
+                            "Congratulations! You're Now Premium!",
+                            `Your total deposit of PKR ${newTotalDeposited.toFixed(2)} has made you a PREMIUM user. You can now withdraw daily from your profits!`,
+                            'success'
+                        );
+                    } else {
+                        addNotificationToUser(
+                            "Deposit Successful",
+                            `Your deposit of PKR ${amount.toFixed(2)} has been received and is being processed.`,
+                            'success'
+                        );
+                    }
+                    
+                    showMessage('depositMessage', successMessage, 'success');
+                    showNotification("Deposit successful!");
                     
                     updateDashboard();
                     startDepositCooldownTimer();
@@ -2332,8 +2500,10 @@
                 return;
             }
 
-            if (amount > currentUser.balance) {
-                showMessage('withdrawMessage', "Insufficient balance", 'error');
+            // Check if user has enough profit
+            const availableProfit = currentUser.profit || 0;
+            if (amount > availableProfit) {
+                showMessage('withdrawMessage', `Insufficient profit. You can only withdraw up to PKR ${availableProfit.toFixed(2)} from your profits.`, 'error');
                 return;
             }
 
@@ -2353,13 +2523,14 @@
                 date: today.getTime(),
                 status: "pending",
                 withdrawalMonth: today.getMonth(),
-                withdrawalYear: today.getFullYear()
+                withdrawalYear: today.getFullYear(),
+                withdrawnFrom: "profit" // Indicating withdrawal is from profit only
             };
 
-            // Update user data
+            // Update user data - subtract only from profit, not from balance
             const updatedUser = {
                 ...currentUser,
-                balance: currentUser.balance - amount,
+                profit: currentUser.profit - amount,
                 lastWithdrawalDate: today.getTime(),
                 transactions: [...(currentUser.transactions || []), transaction]
             };
@@ -2368,18 +2539,20 @@
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
-                    showMessage('withdrawMessage', 
-                        `Withdrawal request submitted successfully! 
-                        Amount: PKR ${amount.toFixed(2)} 
-                        Next withdrawal available on 1st of next month.`, 
-                        'success'
-                    );
+                    
+                    let successMessage = `Withdrawal request submitted successfully! Amount: PKR ${amount.toFixed(2)} `;
+                    if (currentUser.totalDeposited >= 50000) {
+                        successMessage += `Your next withdrawal will be available tomorrow.`;
+                    } else {
+                        successMessage += `Next withdrawal available on 1st of next month.`;
+                    }
+                    
+                    showMessage('withdrawMessage', successMessage, 'success');
                     
                     // Add notification
                     addNotificationToUser(
                         "Withdrawal Request Submitted",
-                        `Your withdrawal of PKR ${amount.toFixed(2)} has been submitted. 
-                        Next withdrawal will be available on 1st of next month.`,
+                        `Your withdrawal of PKR ${amount.toFixed(2)} from profits has been submitted.`,
                         'success'
                     );
                     
@@ -2390,6 +2563,7 @@
                     
                     // Update withdrawal condition display
                     checkWithdrawalConditions();
+                    updateAvailableProfit();
                     
                     setTimeout(() => {
                         showDashboard();
@@ -2472,8 +2646,8 @@
         }
 
         function addDailyProfit() {
-            // Daily profit is 0.5% (ACTUAL CALCULATION)
-            const profitAmount = currentUser.totalDeposited * 0.005;
+            // Daily profit is 1.3% on total deposited amount
+            const profitAmount = currentUser.totalDeposited * 0.013;
             const now = new Date().getTime();
 
             const transaction = {
@@ -2497,7 +2671,7 @@
                     updateDashboard();
                     
                     // Show notification
-                    showNotification(`Daily profit of PKR${profitAmount.toFixed(2)} added to your account!`);
+                    showNotification(`Daily profit of PKR ${profitAmount.toFixed(2)} added to your account!`);
                     
                     // Add notification
                     addNotificationToUser(
