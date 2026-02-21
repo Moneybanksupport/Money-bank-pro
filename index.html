@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1016,7 +1016,7 @@
             <div class="balance-card" id="balanceCard">
                 <div class="balance-label">Current Balance</div>
                 <div class="balance-amount" id="userBalance">PKR 0.00</div>
-                <div class="profit-label">Daily Profit: 1.3%</div>
+                <div class="profit-label">Daily Profit: 0.5%</div>
                 <div id="userTypeBadge" class="user-type-badge regular hidden">Regular User</div>
             </div>
             
@@ -2207,7 +2207,7 @@
             // Update balance and stats
             document.getElementById('userBalance').textContent = `PKR ${currentUser.balance.toFixed(2)}`;
             document.getElementById('totalDeposited').textContent = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
-            document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.013).toFixed(2)}`;
+            document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.005).toFixed(2)}`;
             document.getElementById('totalProfit').textContent = `PKR ${currentUser.profit.toFixed(2)}`;
 
             // Update user type badge and withdrawal info
@@ -2646,8 +2646,8 @@
         }
 
         function addDailyProfit() {
-            // Daily profit is 1.3% on total deposited amount
-            const profitAmount = currentUser.totalDeposited * 0.013;
+            // Daily profit is 0.5% on total deposited amount
+            const profitAmount = currentUser.totalDeposited * 0.005;
             const now = new Date().getTime();
 
             const transaction = {
