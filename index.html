@@ -1016,7 +1016,7 @@
             <div class="balance-card" id="balanceCard">
                 <div class="balance-label">Current Balance</div>
                 <div class="balance-amount" id="userBalance">PKR 0.00</div>
-                <div class="profit-label">Daily Profit: 0.5%</div>
+                <div class="profit-label" id="profitRateLabel">Daily Profit: 0.5% (Regular)</div>
                 <div id="userTypeBadge" class="user-type-badge regular hidden">Regular User</div>
             </div>
             
@@ -1282,7 +1282,7 @@
                 <div class="info-box">
                     <i class="fas fa-info-circle"></i>
                     <strong>Minimum Deposit: PKR 5,000</strong><br>
-                    <small>Deposit PKR 50,000 or more to become a PREMIUM user and get daily withdrawal access!</small>
+                    <small>Deposit PKR 50,000 or more to become a PREMIUM user and get 1.3% daily profit + daily withdrawal access!</small>
                 </div>
                 
                 <div id="depositMessage" class="message hidden"></div>
@@ -1414,6 +1414,10 @@
                     <div class="form-group">
                         <label>Total Deposit</label>
                         <input type="text" id="profileTotalDeposit" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Daily Profit Rate</label>
+                        <input type="text" id="profileProfitRate" class="form-control" disabled>
                     </div>
                 </div>
                 
@@ -1867,12 +1871,16 @@
             document.getElementById('profileRegDate').value = new Date(currentUser.registrationDate).toLocaleString();
             
             // Set account type
-            const userType = currentUser.totalDeposited >= 50000 ? 'premium' : 'regular';
-            document.getElementById('profileAccountType').value = userType === 'premium' ? 'Premium User (Daily Withdrawal)' : 'Regular User (Monthly Withdrawal)';
+            const isPremium = currentUser.totalDeposited >= 50000;
+            const userType = isPremium ? 'premium' : 'regular';
+            const profitRate = isPremium ? '1.3%' : '0.5%';
+            
+            document.getElementById('profileAccountType').value = isPremium ? 'Premium User (Daily Withdrawal)' : 'Regular User (Monthly Withdrawal)';
             document.getElementById('profileTotalDeposit').value = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
+            document.getElementById('profileProfitRate').value = `${profitRate} Daily`;
             
             const profileUserType = document.getElementById('profileUserType');
-            profileUserType.textContent = userType === 'premium' ? 'Premium User' : 'Regular User';
+            profileUserType.textContent = isPremium ? 'Premium User' : 'Regular User';
             profileUserType.className = `user-type-badge ${userType}`;
             
             // Load payment methods if they exist
@@ -1963,18 +1971,24 @@
 
         // ==================== WITHDRAWAL CONDITIONS ====================
         
+        function getProfitRate() {
+            if (!currentUser) return 0.005; // Default 0.5%
+            return currentUser.totalDeposited >= 50000 ? 0.013 : 0.005; // 1.3% for premium, 0.5% for regular
+        }
+        
         function updateWithdrawalInfo() {
             if (!currentUser) return;
             
             const infoBox = document.getElementById('withdrawalInfoBox');
             const infoText = document.getElementById('withdrawalInfoText');
+            const profitRate = getProfitRate() * 100;
             
             if (currentUser.totalDeposited >= 50000) {
                 infoBox.className = 'info-box premium';
-                infoText.innerHTML = '<strong>Premium User:</strong> You can withdraw DAILY from your profits only. Deposit amount is locked.';
+                infoText.innerHTML = `<strong>Premium User (${profitRate}% Daily Profit):</strong> You can withdraw DAILY from your profits only. Deposit amount is locked.`;
             } else {
                 infoBox.className = 'info-box';
-                infoText.innerHTML = '<strong>Regular User:</strong> You can withdraw on the 1st of each month from your profits only. Deposit amount is locked. Deposit PKR 50,000+ to become Premium!';
+                infoText.innerHTML = `<strong>Regular User (${profitRate}% Daily Profit):</strong> You can withdraw on the 1st of each month from your profits only. Deposit amount is locked. Deposit PKR 50,000+ to become Premium and get 1.3% daily profit!`;
             }
         }
         
@@ -1989,14 +2003,21 @@
             if (!currentUser) return;
             
             const badge = document.getElementById('userTypeBadge');
+            const profitRateLabel = document.getElementById('profitRateLabel');
+            const profitRate = getProfitRate() * 100;
+            
             if (currentUser.totalDeposited >= 50000) {
                 badge.textContent = 'Premium User';
                 badge.className = 'user-type-badge premium';
                 badge.classList.remove('hidden');
+                profitRateLabel.textContent = `Daily Profit: 1.3% (Premium)`;
+                profitRateLabel.style.color = 'var(--premium)';
             } else {
                 badge.textContent = 'Regular User';
                 badge.className = 'user-type-badge regular';
                 badge.classList.remove('hidden');
+                profitRateLabel.textContent = `Daily Profit: 0.5% (Regular)`;
+                profitRateLabel.style.color = 'var(--secondary)';
             }
         }
         
@@ -2008,14 +2029,14 @@
             
             const today = new Date();
             const currentDay = today.getDate();
-            const currentMonth = today.getMonth(); // 0-based (0 = January)
+            const currentMonth = today.getMonth();
             const currentYear = today.getFullYear();
             
             const isPremium = currentUser.totalDeposited >= 50000;
+            const profitRate = getProfitRate() * 100;
             
-            // شرط 1: Premium users daily withdraw kar sakte hain
+            // Premium users daily withdraw kar sakte hain
             if (isPremium) {
-                // شرط 2: صرف profit mein se withdrawal
                 const availableProfit = currentUser.profit || 0;
                 
                 if (availableProfit <= 0) {
@@ -2030,7 +2051,7 @@
                 
                 conditionDiv.innerHTML = `
                     <i class="fas fa-check-circle"></i> 
-                    <strong>Premium Withdrawal Available:</strong><br>
+                    <strong>Premium Withdrawal Available (${profitRate}% Daily Profit):</strong><br>
                     ✅ Daily withdrawal allowed<br>
                     ✅ You can withdraw from your profits only<br>
                     ✅ Deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked<br>
@@ -2041,31 +2062,30 @@
             }
             
             // Regular users ke liye
-            // شرط 1: صرف مہینے کے پہلے دن
+            // صرف مہینے کے پہلے دن
             if (currentDay !== 1) {
                 const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
                 const daysLeft = Math.ceil((nextMonthDate - today) / (1000 * 60 * 60 * 24));
                 
                 conditionDiv.innerHTML = `
                     <i class="fas fa-calendar-times"></i> 
-                    <strong>Regular User - Withdrawal Restriction:</strong><br>
+                    <strong>Regular User (${profitRate}% Daily Profit) - Withdrawal Restriction:</strong><br>
                     Withdrawal is only allowed on <strong>1st of each month</strong>.<br>
                     Next withdrawal date: <strong>${nextMonthDate.toLocaleDateString()}</strong><br>
                     Days remaining: <strong>${daysLeft} days</strong><br>
-                    <small>Upgrade to Premium (PKR 50,000+ deposit) for daily withdrawals!</small>
+                    <small>Upgrade to Premium (PKR 50,000+ deposit) for 1.3% daily profit + daily withdrawals!</small>
                 `;
                 conditionDiv.className = 'withdraw-condition error';
                 return false;
             }
             
-            // شرط 2: پچھلے withdrawal کی تاریخ چیک کریں
+            // پچھلے withdrawal کی تاریخ چیک کریں
             const lastWithdrawalDate = currentUser.lastWithdrawalDate;
             if (lastWithdrawalDate) {
                 const lastWithdraw = new Date(lastWithdrawalDate);
                 const lastWithdrawMonth = lastWithdraw.getMonth();
                 const lastWithdrawYear = lastWithdraw.getFullYear();
                 
-                // اگر اس مہینے میں پہلے ہی withdrawal ہو چکا ہے
                 if (currentMonth === lastWithdrawMonth && currentYear === lastWithdrawYear) {
                     const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
                     const daysLeft = Math.ceil((nextMonthDate - today) / (1000 * 60 * 60 * 24));
@@ -2082,7 +2102,7 @@
                 }
             }
             
-            // شرط 3: صرف profit mein se withdrawal
+            // صرف profit mein se withdrawal
             const availableProfit = currentUser.profit || 0;
             
             if (availableProfit <= 0) {
@@ -2098,7 +2118,7 @@
             // تمام شرائط پوری ہونے پر
             conditionDiv.innerHTML = `
                 <i class="fas fa-check-circle"></i> 
-                <strong>Regular User - Withdrawal Available:</strong><br>
+                <strong>Regular User (${profitRate}% Daily Profit) - Withdrawal Available:</strong><br>
                 ✅ Today is 1st of the month<br>
                 ✅ No withdrawal made this month<br>
                 Available profit for withdrawal: <strong>PKR ${availableProfit.toFixed(2)}</strong><br>
@@ -2204,10 +2224,13 @@
         function updateDashboard() {
             if (!currentUser) return;
 
+            const profitRate = getProfitRate();
+            const dailyProfitAmount = currentUser.totalDeposited * profitRate;
+
             // Update balance and stats
             document.getElementById('userBalance').textContent = `PKR ${currentUser.balance.toFixed(2)}`;
             document.getElementById('totalDeposited').textContent = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
-            document.getElementById('dailyProfit').textContent = `PKR ${(currentUser.totalDeposited * 0.005).toFixed(2)}`;
+            document.getElementById('dailyProfit').textContent = `PKR ${dailyProfitAmount.toFixed(2)}`;
             document.getElementById('totalProfit').textContent = `PKR ${currentUser.profit.toFixed(2)}`;
 
             // Update user type badge and withdrawal info
@@ -2457,16 +2480,17 @@
                     
                     let successMessage = "Deposit successful! Amount added to your balance.";
                     if (becomesPremium) {
-                        successMessage += " Congratulations! You are now a PREMIUM user and can withdraw daily from your profits!";
+                        successMessage += " Congratulations! You are now a PREMIUM user and will get 1.3% daily profit with daily withdrawal access!";
                         addNotificationToUser(
                             "Congratulations! You're Now Premium!",
-                            `Your total deposit of PKR ${newTotalDeposited.toFixed(2)} has made you a PREMIUM user. You can now withdraw daily from your profits!`,
+                            `Your total deposit of PKR ${newTotalDeposited.toFixed(2)} has made you a PREMIUM user. You will now get 1.3% daily profit and can withdraw daily from your profits!`,
                             'success'
                         );
                     } else {
+                        const profitRate = newTotalDeposited >= 50000 ? '1.3%' : '0.5%';
                         addNotificationToUser(
                             "Deposit Successful",
-                            `Your deposit of PKR ${amount.toFixed(2)} has been received and is being processed.`,
+                            `Your deposit of PKR ${amount.toFixed(2)} has been received. Your daily profit rate is ${profitRate}.`,
                             'success'
                         );
                     }
@@ -2524,10 +2548,10 @@
                 status: "pending",
                 withdrawalMonth: today.getMonth(),
                 withdrawalYear: today.getFullYear(),
-                withdrawnFrom: "profit" // Indicating withdrawal is from profit only
+                withdrawnFrom: "profit"
             };
 
-            // Update user data - subtract only from profit, not from balance
+            // Update user data
             const updatedUser = {
                 ...currentUser,
                 profit: currentUser.profit - amount,
@@ -2540,7 +2564,9 @@
                 .then(() => {
                     currentUser = updatedUser;
                     
+                    const profitRate = getProfitRate() * 100;
                     let successMessage = `Withdrawal request submitted successfully! Amount: PKR ${amount.toFixed(2)} `;
+                    
                     if (currentUser.totalDeposited >= 50000) {
                         successMessage += `Your next withdrawal will be available tomorrow.`;
                     } else {
@@ -2646,8 +2672,11 @@
         }
 
         function addDailyProfit() {
-            // Daily profit is 0.5% on total deposited amount
-            const profitAmount = currentUser.totalDeposited * 0.005;
+            if (!currentUser) return;
+            
+            // Get profit rate based on user type
+            const profitRate = getProfitRate();
+            const profitAmount = currentUser.totalDeposited * profitRate;
             const now = new Date().getTime();
 
             const transaction = {
@@ -2670,13 +2699,15 @@
                     currentUser = updatedUser;
                     updateDashboard();
                     
+                    const profitRatePercent = profitRate * 100;
+                    
                     // Show notification
-                    showNotification(`Daily profit of PKR ${profitAmount.toFixed(2)} added to your account!`);
+                    showNotification(`Daily profit of PKR ${profitAmount.toFixed(2)} (${profitRatePercent}%) added to your account!`);
                     
                     // Add notification
                     addNotificationToUser(
                         "Daily Profit Added",
-                        `Congratulations! Your daily profit of PKR ${profitAmount.toFixed(2)} has been added to your account.`,
+                        `Congratulations! Your daily profit of PKR ${profitAmount.toFixed(2)} (${profitRatePercent}%) has been added to your account.`,
                         'success'
                     );
                 })
