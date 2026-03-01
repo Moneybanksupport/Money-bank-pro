@@ -22,6 +22,7 @@
             --warning: #FFD166;
             --info: #6C5CE7;
             --premium: #FFD700;           /* Gold for premium users */
+            --pending: #FFA500;            /* Orange for pending */
         }
         
         * {
@@ -878,8 +879,8 @@
         }
         
         .status-badge.pending {
-            background: rgba(255, 209, 102, 0.1);
-            color: var(--warning);
+            background: rgba(255, 165, 0, 0.1);
+            color: var(--pending);
         }
         
         .status-badge.failed {
@@ -994,6 +995,21 @@
         .info-box.premium i {
             color: var(--premium);
         }
+
+        /* Pending Withdrawals */
+        .pending-withdrawals {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid var(--pending);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .pending-withdrawals i {
+            color: var(--pending);
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -1047,6 +1063,13 @@
     
     <!-- Main Content -->
     <div class="container" id="mainContent">
+        <!-- Pending Withdrawals Section -->
+        <div id="pendingWithdrawalsSection" class="pending-withdrawals hidden">
+            <i class="fas fa-clock"></i>
+            <strong>Pending Withdrawals:</strong> PKR <span id="pendingWithdrawalsAmount">0.00</span>
+            <small style="display: block; margin-top: 5px;">Your withdrawals are being processed</small>
+        </div>
+
         <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card">
@@ -1418,6 +1441,10 @@
                     <div class="form-group">
                         <label>Daily Profit Rate</label>
                         <input type="text" id="profileProfitRate" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Pending Withdrawals</label>
+                        <input type="text" id="profilePendingWithdrawals" class="form-control" disabled>
                     </div>
                 </div>
                 
@@ -1879,6 +1906,10 @@
             document.getElementById('profileTotalDeposit').value = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
             document.getElementById('profileProfitRate').value = `${profitRate} Daily`;
             
+            // Pending withdrawals
+            const pendingAmount = currentUser.pendingWithdrawals || 0;
+            document.getElementById('profilePendingWithdrawals').value = `PKR ${pendingAmount.toFixed(2)}`;
+            
             const profileUserType = document.getElementById('profileUserType');
             profileUserType.textContent = isPremium ? 'Premium User' : 'Regular User';
             profileUserType.className = `user-type-badge ${userType}`;
@@ -2128,6 +2159,19 @@
             return true;
         }
 
+        // Update pending withdrawals display
+        function updatePendingWithdrawals() {
+            const pendingSection = document.getElementById('pendingWithdrawalsSection');
+            const pendingAmount = document.getElementById('pendingWithdrawalsAmount');
+            
+            if (!currentUser || !currentUser.pendingWithdrawals || currentUser.pendingWithdrawals === 0) {
+                pendingSection.classList.add('hidden');
+            } else {
+                pendingSection.classList.remove('hidden');
+                pendingAmount.textContent = currentUser.pendingWithdrawals.toFixed(2);
+            }
+        }
+
         // ================= AUTHENTICATION FUNCTIONS =================
 
         function register() {
@@ -2153,6 +2197,7 @@
                         balance: 0, 
                         totalDeposited: 0,
                         profit: 0,
+                        pendingWithdrawals: 0,
                         transactions: [],
                         depositHistory: [],
                         usedTrxIds: [],
@@ -2236,6 +2281,9 @@
             // Update user type badge and withdrawal info
             updateUserTypeBadge();
             updateWithdrawalInfo();
+            
+            // Update pending withdrawals
+            updatePendingWithdrawals();
 
             // Update withdrawal condition if on withdraw page
             if (document.getElementById('withdrawCondition')) {
@@ -2256,29 +2304,51 @@
                     const transactionItem = document.createElement('div');
                     transactionItem.className = 'transaction-item';
 
-                    const typeDiv = document.createElement('div');
-                    typeDiv.className = `transaction-type transaction-${transaction.type.toLowerCase()}`;
-                    typeDiv.textContent = transaction.type;
-
+                    const transactionInfo = document.createElement('div');
+                    transactionInfo.className = 'transaction-info';
+                    
+                    const transactionIcon = document.createElement('div');
+                    transactionIcon.className = `transaction-icon ${transaction.type.toLowerCase()}`;
+                    
+                    if (transaction.type.toLowerCase() === 'deposit') {
+                        transactionIcon.innerHTML = '<i class="fas fa-arrow-down"></i>';
+                    } else if (transaction.type.toLowerCase() === 'withdraw') {
+                        transactionIcon.innerHTML = '<i class="fas fa-arrow-up"></i>';
+                    } else {
+                        transactionIcon.innerHTML = '<i class="fas fa-chart-line"></i>';
+                    }
+                    
+                    const transactionDetails = document.createElement('div');
+                    transactionDetails.className = 'transaction-details';
+                    
+                    const transactionTitle = document.createElement('h4');
+                    transactionTitle.textContent = transaction.type;
+                    
+                    const transactionDate = document.createElement('p');
+                    transactionDate.textContent = new Date(transaction.date).toLocaleString();
+                    
+                    transactionDetails.appendChild(transactionTitle);
+                    transactionDetails.appendChild(transactionDate);
+                    
+                    transactionInfo.appendChild(transactionIcon);
+                    transactionInfo.appendChild(transactionDetails);
+                    
                     const amountDiv = document.createElement('div');
-                    amountDiv.textContent = `PKR${transaction.amount.toFixed(2)}`;
-
-                    const dateDiv = document.createElement('div');
-                    dateDiv.textContent = new Date(transaction.date).toLocaleString();
-
+                    amountDiv.className = `transaction-amount ${transaction.type.toLowerCase() === 'deposit' ? 'positive' : 'negative'}`;
+                    amountDiv.textContent = `${transaction.type.toLowerCase() === 'deposit' ? '+' : '-'} PKR ${transaction.amount.toFixed(2)}`;
+                    
                     const statusDiv = document.createElement('div');
-                    statusDiv.className = transaction.status === 'completed' ? 'completed' : 'processing';
+                    statusDiv.className = `status-badge ${transaction.status}`;
                     statusDiv.textContent = transaction.status;
 
-                    transactionItem.appendChild(typeDiv);
+                    transactionItem.appendChild(transactionInfo);
                     transactionItem.appendChild(amountDiv);
-                    transactionItem.appendChild(dateDiv);
                     transactionItem.appendChild(statusDiv);
 
                     transactionList.appendChild(transactionItem);
                 });
             } else {
-                transactionList.innerHTML = '<div class="text-center"><p>No transactions yet</p></div>';
+                transactionList.innerHTML = '<div class="empty-state"><p>No transactions yet</p></div>';
             }
             
             // Load notifications
@@ -2450,7 +2520,7 @@
                 method: method,
                 trxId: trxId,
                 date: now,
-                status: "pending"
+                status: "completed" // Deposits are completed immediately
             };
 
             // Determine if user becomes premium after this deposit
@@ -2538,23 +2608,25 @@
                 return;
             }
 
-            // Create withdrawal transaction
+            // Create withdrawal transaction (Pending status)
             const today = new Date();
             const transaction = {
                 type: "Withdraw",
                 amount: amount,
                 method: method,
                 date: today.getTime(),
-                status: "pending",
+                status: "pending", // Pending status
                 withdrawalMonth: today.getMonth(),
                 withdrawalYear: today.getFullYear(),
                 withdrawnFrom: "profit"
             };
 
-            // Update user data
+            // Update user data - amount balance se cut hogi aur pending mein chali jayegi
             const updatedUser = {
                 ...currentUser,
+                balance: currentUser.balance - amount, // Balance se cut
                 profit: currentUser.profit - amount,
+                pendingWithdrawals: (currentUser.pendingWithdrawals || 0) + amount, // Pending mein add
                 lastWithdrawalDate: today.getTime(),
                 transactions: [...(currentUser.transactions || []), transaction]
             };
@@ -2565,7 +2637,7 @@
                     currentUser = updatedUser;
                     
                     const profitRate = getProfitRate() * 100;
-                    let successMessage = `Withdrawal request submitted successfully! Amount: PKR ${amount.toFixed(2)} `;
+                    let successMessage = `Withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is pending approval. `;
                     
                     if (currentUser.totalDeposited >= 50000) {
                         successMessage += `Your next withdrawal will be available tomorrow.`;
@@ -2575,11 +2647,11 @@
                     
                     showMessage('withdrawMessage', successMessage, 'success');
                     
-                    // Add notification
+                    // Add notification for pending withdrawal
                     addNotificationToUser(
-                        "Withdrawal Request Submitted",
-                        `Your withdrawal of PKR ${amount.toFixed(2)} from profits has been submitted.`,
-                        'success'
+                        "Withdrawal Request Pending",
+                        `Your withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is pending approval. You will be notified once processed.`,
+                        'info'
                     );
                     
                     updateDashboard();
