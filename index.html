@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #000000;          /* Black */
-            --secondary: #00D4AA;        /* Green like SadaPay */
-            --secondary-dark: #00B894;   /* Darker Green */
-            --dark: #0A0A0A;             /* Dark Black */
-            --darker: #050505;           /* Darker Black */
+            --primary: #000000;
+            --secondary: #00D4AA;
+            --secondary-dark: #00B894;
+            --dark: #0A0A0A;
+            --darker: #050505;
             --light: #FFFFFF;
             --gray: #8A8A9E;
             --card-bg: #1A1A1A;
@@ -21,8 +21,8 @@
             --danger: #FF6B6B;
             --warning: #FFD166;
             --info: #6C5CE7;
-            --premium: #FFD700;           /* Gold for premium users */
-            --pending: #FFA500;            /* Orange for pending */
+            --premium: #FFD700;
+            --pending: #FFA500;
         }
         
         * {
@@ -39,7 +39,6 @@
             padding-bottom: 80px;
         }
         
-        /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, #111111 100%);
             padding: 20px 0 30px;
@@ -128,7 +127,6 @@
             font-weight: bold;
         }
         
-        /* Balance Card */
         .balance-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -170,7 +168,6 @@
             font-weight: 600;
         }
         
-        /* User Type Badge */
         .user-type-badge {
             display: inline-block;
             padding: 4px 12px;
@@ -192,7 +189,12 @@
             border: 1px solid var(--secondary);
         }
         
-        /* Quick Actions */
+        .user-type-badge.pending-deposit {
+            background: rgba(255, 165, 0, 0.15);
+            color: var(--pending);
+            border: 1px solid var(--pending);
+        }
+        
         .quick-actions {
             display: flex;
             justify-content: space-between;
@@ -244,7 +246,6 @@
             font-size: 0.85rem;
         }
         
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -284,7 +285,6 @@
             font-size: 0.8rem;
         }
         
-        /* Section Cards */
         .section {
             margin-bottom: 25px;
         }
@@ -310,7 +310,6 @@
             text-decoration: none;
         }
         
-        /* Transactions */
         .transactions {
             background: var(--card-bg);
             border-radius: 20px;
@@ -363,6 +362,11 @@
             color: var(--warning);
         }
         
+        .transaction-icon.pending-deposit {
+            background: rgba(255, 165, 0, 0.15);
+            color: var(--pending);
+        }
+        
         .transaction-details h4 {
             font-weight: 600;
             margin-bottom: 4px;
@@ -387,7 +391,10 @@
             color: var(--danger);
         }
         
-        /* Discover Cards */
+        .transaction-amount.pending {
+            color: var(--pending);
+        }
+        
         .discover-cards {
             display: flex;
             flex-direction: column;
@@ -434,7 +441,6 @@
             font-size: 0.85rem;
         }
         
-        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -469,7 +475,6 @@
             font-size: 1.2rem;
         }
         
-        /* Auth Forms */
         .auth-form {
             background: var(--card-bg);
             border-radius: 20px;
@@ -526,6 +531,15 @@
             transform: translateY(-2px);
         }
         
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e55a5a;
+        }
+        
         .auth-link {
             text-align: center;
             margin-top: 20px;
@@ -539,7 +553,6 @@
             font-weight: 600;
         }
         
-        /* Messages */
         .message {
             padding: 12px 15px;
             border-radius: 8px;
@@ -562,12 +575,16 @@
             border-left: 4px solid var(--success);
         }
         
-        /* Hidden elements */
+        .message.warning {
+            background: rgba(255, 165, 0, 0.1);
+            color: var(--pending);
+            border-left: 4px solid var(--pending);
+        }
+        
         .hidden {
             display: none !important;
         }
         
-        /* Loading */
         .loading {
             text-align: center;
             padding: 40px;
@@ -579,7 +596,6 @@
             margin-bottom: 15px;
         }
         
-        /* Cooldown Timer */
         .cooldown {
             background: rgba(255, 107, 107, 0.1);
             color: var(--danger);
@@ -591,7 +607,6 @@
             font-size: 0.9rem;
         }
         
-        /* Profile */
         .profile-header {
             text-align: center;
             margin-bottom: 30px;
@@ -610,7 +625,6 @@
             color: var(--primary);
         }
         
-        /* Withdraw Condition */
         .withdraw-condition {
             background: rgba(255, 209, 102, 0.1);
             color: var(--warning);
@@ -640,7 +654,6 @@
             border-left: 4px solid var(--premium);
         }
         
-        /* Tabs */
         .tabs {
             display: flex;
             margin-bottom: 20px;
@@ -677,7 +690,6 @@
             display: block;
         }
         
-        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -693,6 +705,7 @@
             align-items: center;
             gap: 10px;
             font-weight: 600;
+            max-width: 350px;
         }
         
         @keyframes slideIn {
@@ -700,7 +713,6 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        /* Footer */
         .footer {
             text-align: center;
             padding: 20px;
@@ -709,7 +721,6 @@
             margin-top: 40px;
         }
         
-        /* Back Button */
         .back-btn {
             background: none;
             border: none;
@@ -724,7 +735,6 @@
             font-weight: 600;
         }
         
-        /* Progress Bar */
         .progress-bar {
             height: 4px;
             background: var(--card-border);
@@ -740,7 +750,6 @@
             transition: width 0.3s;
         }
         
-        /* Notifications Page */
         .notifications-container {
             max-height: 500px;
             overflow-y: auto;
@@ -810,7 +819,6 @@
             color: var(--secondary);
         }
         
-        /* History Page */
         .history-filters {
             display: flex;
             gap: 10px;
@@ -888,7 +896,6 @@
             color: var(--danger);
         }
         
-        /* Search Bar */
         .search-bar {
             display: flex;
             align-items: center;
@@ -916,7 +923,6 @@
             color: var(--gray);
         }
         
-        /* Notification Panel */
         .notification-panel {
             position: fixed;
             top: 100px;
@@ -961,7 +967,6 @@
             padding: 0;
         }
         
-        /* Close Button */
         .close-btn {
             background: none;
             border: none;
@@ -971,7 +976,6 @@
             padding: 5px;
         }
         
-        /* Info Box */
         .info-box {
             background: rgba(0, 212, 170, 0.1);
             border: 1px solid var(--secondary);
@@ -995,8 +999,16 @@
         .info-box.premium i {
             color: var(--premium);
         }
-
-        /* Pending Withdrawals */
+        
+        .info-box.warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: var(--pending);
+        }
+        
+        .info-box.warning i {
+            color: var(--pending);
+        }
+        
         .pending-withdrawals {
             background: rgba(255, 165, 0, 0.1);
             border: 1px solid var(--pending);
@@ -1009,6 +1021,45 @@
         .pending-withdrawals i {
             color: var(--pending);
             margin-right: 8px;
+        }
+        
+        .pending-deposits {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid var(--pending);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .pending-deposits i {
+            color: var(--pending);
+            margin-right: 8px;
+        }
+        
+        .admin-action-btn {
+            background: var(--pending);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 8px;
+        }
+        
+        .admin-action-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .admin-action-btn.confirm {
+            background: var(--success);
+        }
+        
+        .admin-action-btn.reject {
+            background: var(--danger);
+            color: white;
         }
     </style>
 </head>
@@ -1063,6 +1114,13 @@
     
     <!-- Main Content -->
     <div class="container" id="mainContent">
+        <!-- Pending Deposits Section -->
+        <div id="pendingDepositsSection" class="pending-deposits hidden">
+            <i class="fas fa-clock"></i>
+            <strong>Pending Deposits:</strong> PKR <span id="pendingDepositsAmount">0.00</span>
+            <small style="display: block; margin-top: 5px;">Your deposits are pending admin approval</small>
+        </div>
+        
         <!-- Pending Withdrawals Section -->
         <div id="pendingWithdrawalsSection" class="pending-withdrawals hidden">
             <i class="fas fa-clock"></i>
@@ -1302,10 +1360,10 @@
                     <p style="color: var(--gray); font-size: 0.9rem;">Add funds to your account</p>
                 </div>
                 
-                <div class="info-box">
+                <div class="info-box warning">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Minimum Deposit: PKR 5,000</strong><br>
-                    <small>Deposit PKR 50,000 or more to become a PREMIUM user and get 1.3% daily profit + daily withdrawal access!</small>
+                    <strong>Important:</strong> Deposits are pending admin approval. Once approved, your balance will be updated.<br>
+                    <small>Minimum Deposit: PKR 5,000 | Deposit PKR 50,000+ for Premium status</small>
                 </div>
                 
                 <div id="depositMessage" class="message hidden"></div>
@@ -1318,9 +1376,9 @@
                 <div class="form-group">
                     <label for="depositMethod">Payment Method</label>
                     <select id="depositMethod" class="form-control">
-                        <option value="nayapay">Sadapay (Account: 03250416566 )</option>
-                        <option value="easypaisa">MBANK (updating )</option>
-                        <option value="jazzcash">jazzcash (Account: updating )</option>
+                        <option value="nayapay">Sadapay (Account: 03250416566)</option>
+                        <option value="easypaisa">MBANK (updating)</option>
+                        <option value="jazzcash">JazzCash (updating)</option>
                         <option value="crypto">Crypto (TRX: TYniZoq95Paj5zYFTuqmMKQV6xX5DJy2th)</option>
                     </select>
                 </div>
@@ -1331,7 +1389,7 @@
                 </div>
                 
                 <button class="btn" onclick="processDeposit()">
-                    <i class="fas fa-check-circle"></i> Deposit Now
+                    <i class="fas fa-check-circle"></i> Submit Deposit Request
                 </button>
                 
                 <div id="depositCooldown" class="cooldown hidden"></div>
@@ -1443,6 +1501,10 @@
                         <input type="text" id="profileProfitRate" class="form-control" disabled>
                     </div>
                     <div class="form-group">
+                        <label>Pending Deposits</label>
+                        <input type="text" id="profilePendingDeposits" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
                         <label>Pending Withdrawals</label>
                         <input type="text" id="profilePendingWithdrawals" class="form-control" disabled>
                     </div>
@@ -1484,7 +1546,7 @@
                     </button>
                 </div>
                 
-                <button class="btn" onclick="logout()" style="background: var(--danger); margin-top: 20px;">
+                <button class="btn btn-danger" onclick="logout()" style="margin-top: 20px;">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
@@ -1605,6 +1667,7 @@
         let profitTimerInterval;
         let depositCooldownInterval;
         let currentFilter = 'all';
+        let adminEmail = 'admin@miningbank.com'; // Admin email
 
         // Message helper functions
         function showMessage(elementId, message, type = 'error') {
@@ -1624,7 +1687,7 @@
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'exclamation-triangle'}"></i>
                 <span>${message}</span>
             `;
             document.body.appendChild(notification);
@@ -1891,10 +1954,9 @@
             // Populate profile data
             document.getElementById('profileName').textContent = currentUser.name;
             document.getElementById('profileEmail').textContent = currentUser.email;
-            document.getElementById('profilePhone').textContent = currentUser.phone;
             document.getElementById('profileNameInput').value = currentUser.name;
             document.getElementById('profileEmailInput').value = currentUser.email;
-            document.getElementById('profilePhoneInput').value = currentUser.phone;
+            document.getElementById('profilePhoneInput').value = currentUser.phone || '';
             document.getElementById('profileRegDate').value = new Date(currentUser.registrationDate).toLocaleString();
             
             // Set account type
@@ -1906,9 +1968,13 @@
             document.getElementById('profileTotalDeposit').value = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
             document.getElementById('profileProfitRate').value = `${profitRate} Daily`;
             
+            // Pending deposits
+            const pendingDeposits = currentUser.pendingDeposits || 0;
+            document.getElementById('profilePendingDeposits').value = `PKR ${pendingDeposits.toFixed(2)}`;
+            
             // Pending withdrawals
-            const pendingAmount = currentUser.pendingWithdrawals || 0;
-            document.getElementById('profilePendingWithdrawals').value = `PKR ${pendingAmount.toFixed(2)}`;
+            const pendingWithdrawals = currentUser.pendingWithdrawals || 0;
+            document.getElementById('profilePendingWithdrawals').value = `PKR ${pendingWithdrawals.toFixed(2)}`;
             
             const profileUserType = document.getElementById('profileUserType');
             profileUserType.textContent = isPremium ? 'Premium User' : 'Regular User';
@@ -2159,16 +2225,28 @@
             return true;
         }
 
-        // Update pending withdrawals display
-        function updatePendingWithdrawals() {
-            const pendingSection = document.getElementById('pendingWithdrawalsSection');
-            const pendingAmount = document.getElementById('pendingWithdrawalsAmount');
+        // Update pending deposits and withdrawals display
+        function updatePendingItems() {
+            // Pending Deposits
+            const pendingDepositsSection = document.getElementById('pendingDepositsSection');
+            const pendingDepositsAmount = document.getElementById('pendingDepositsAmount');
+            
+            if (!currentUser || !currentUser.pendingDeposits || currentUser.pendingDeposits === 0) {
+                pendingDepositsSection.classList.add('hidden');
+            } else {
+                pendingDepositsSection.classList.remove('hidden');
+                pendingDepositsAmount.textContent = currentUser.pendingDeposits.toFixed(2);
+            }
+            
+            // Pending Withdrawals
+            const pendingWithdrawalsSection = document.getElementById('pendingWithdrawalsSection');
+            const pendingWithdrawalsAmount = document.getElementById('pendingWithdrawalsAmount');
             
             if (!currentUser || !currentUser.pendingWithdrawals || currentUser.pendingWithdrawals === 0) {
-                pendingSection.classList.add('hidden');
+                pendingWithdrawalsSection.classList.add('hidden');
             } else {
-                pendingSection.classList.remove('hidden');
-                pendingAmount.textContent = currentUser.pendingWithdrawals.toFixed(2);
+                pendingWithdrawalsSection.classList.remove('hidden');
+                pendingWithdrawalsAmount.textContent = currentUser.pendingWithdrawals.toFixed(2);
             }
         }
 
@@ -2197,6 +2275,7 @@
                         balance: 0, 
                         totalDeposited: 0,
                         profit: 0,
+                        pendingDeposits: 0,
                         pendingWithdrawals: 0,
                         transactions: [],
                         depositHistory: [],
@@ -2207,7 +2286,8 @@
                         lastProfitTime: new Date().getTime(),
                         lastDepositTime: 0,
                         firstDepositDate: 0,
-                        lastWithdrawalDate: 0
+                        lastWithdrawalDate: 0,
+                        pendingDepositTransactions: [] // Pending deposit requests
                     };
                     
                     return db.collection("users").doc(user.uid).set(userData)
@@ -2264,6 +2344,12 @@
                 });
         }
 
+        // Check if current user is admin
+        function isAdmin() {
+            if (!currentUser) return false;
+            return currentUser.email === adminEmail;
+        }
+
         // ================= USER DASHBOARD FUNCTIONS =================
 
         function updateDashboard() {
@@ -2282,8 +2368,8 @@
             updateUserTypeBadge();
             updateWithdrawalInfo();
             
-            // Update pending withdrawals
-            updatePendingWithdrawals();
+            // Update pending items
+            updatePendingItems();
 
             // Update withdrawal condition if on withdraw page
             if (document.getElementById('withdrawCondition')) {
@@ -2308,21 +2394,34 @@
                     transactionInfo.className = 'transaction-info';
                     
                     const transactionIcon = document.createElement('div');
-                    transactionIcon.className = `transaction-icon ${transaction.type.toLowerCase()}`;
                     
+                    // Set icon based on transaction type and status
                     if (transaction.type.toLowerCase() === 'deposit') {
-                        transactionIcon.innerHTML = '<i class="fas fa-arrow-down"></i>';
+                        if (transaction.status === 'pending') {
+                            transactionIcon.className = 'transaction-icon pending-deposit';
+                            transactionIcon.innerHTML = '<i class="fas fa-clock"></i>';
+                        } else {
+                            transactionIcon.className = 'transaction-icon deposit';
+                            transactionIcon.innerHTML = '<i class="fas fa-arrow-down"></i>';
+                        }
                     } else if (transaction.type.toLowerCase() === 'withdraw') {
+                        transactionIcon.className = 'transaction-icon withdraw';
                         transactionIcon.innerHTML = '<i class="fas fa-arrow-up"></i>';
                     } else {
+                        transactionIcon.className = 'transaction-icon profit';
                         transactionIcon.innerHTML = '<i class="fas fa-chart-line"></i>';
                     }
                     
                     const transactionDetails = document.createElement('div');
                     transactionDetails.className = 'transaction-details';
                     
+                    let displayType = transaction.type;
+                    if (transaction.type.toLowerCase() === 'deposit' && transaction.status === 'pending') {
+                        displayType = 'Deposit (Pending)';
+                    }
+                    
                     const transactionTitle = document.createElement('h4');
-                    transactionTitle.textContent = transaction.type;
+                    transactionTitle.textContent = displayType;
                     
                     const transactionDate = document.createElement('p');
                     transactionDate.textContent = new Date(transaction.date).toLocaleString();
@@ -2334,8 +2433,22 @@
                     transactionInfo.appendChild(transactionDetails);
                     
                     const amountDiv = document.createElement('div');
-                    amountDiv.className = `transaction-amount ${transaction.type.toLowerCase() === 'deposit' ? 'positive' : 'negative'}`;
-                    amountDiv.textContent = `${transaction.type.toLowerCase() === 'deposit' ? '+' : '-'} PKR ${transaction.amount.toFixed(2)}`;
+                    
+                    if (transaction.type.toLowerCase() === 'deposit') {
+                        if (transaction.status === 'pending') {
+                            amountDiv.className = 'transaction-amount pending';
+                            amountDiv.textContent = `+ PKR ${transaction.amount.toFixed(2)} (Pending)`;
+                        } else {
+                            amountDiv.className = 'transaction-amount positive';
+                            amountDiv.textContent = `+ PKR ${transaction.amount.toFixed(2)}`;
+                        }
+                    } else if (transaction.type.toLowerCase() === 'withdraw') {
+                        amountDiv.className = 'transaction-amount negative';
+                        amountDiv.textContent = `- PKR ${transaction.amount.toFixed(2)}`;
+                    } else {
+                        amountDiv.className = 'transaction-amount positive';
+                        amountDiv.textContent = `+ PKR ${transaction.amount.toFixed(2)}`;
+                    }
                     
                     const statusDiv = document.createElement('div');
                     statusDiv.className = `status-badge ${transaction.status}`;
@@ -2422,15 +2535,12 @@
             
             filteredTransactions.forEach(transaction => {
                 const type = transaction.type.toLowerCase();
-                const typeClass = type === 'deposit' ? 'transaction-deposit' : 
-                                type === 'withdraw' ? 'transaction-withdraw' : 'transaction-profit';
-                
                 const statusClass = transaction.status === 'completed' ? 'completed' : 
                                   transaction.status === 'pending' ? 'pending' : 'failed';
                 
                 tableHTML += `
                     <tr>
-                        <td><span class="${typeClass}">${transaction.type}</span></td>
+                        <td>${transaction.type}</td>
                         <td>PKR ${transaction.amount.toFixed(2)}</td>
                         <td>${new Date(transaction.date).toLocaleString()}</td>
                         <td><span class="status-badge ${statusClass}">${transaction.status}</span></td>
@@ -2476,6 +2586,8 @@
             });
         }
 
+        // ================= DEPOSIT FUNCTION (PENDING) =================
+
         function processDeposit() {
             const amount = parseFloat(document.getElementById('depositAmount').value);
             const method = document.getElementById('depositMethod').value;
@@ -2509,64 +2621,50 @@
             const hoursSinceLastDeposit = (now - lastDepositTime) / (1000 * 60 * 60);
 
             if (hoursSinceLastDeposit < 24) {
-                showMessage('depositMessage', "You can only make one deposit every 24 hours", 'error');
+                showMessage('depositMessage', "You can only make one deposit request every 24 hours", 'error');
                 return;
             }
 
-            // Create transaction
+            // Create pending deposit transaction
             const transaction = {
                 type: "Deposit",
                 amount: amount,
                 method: method,
                 trxId: trxId,
                 date: now,
-                status: "completed" // Deposits are completed immediately
+                status: "pending", // Pending admin approval
+                transactionId: Date.now().toString() // Unique ID for this transaction
             };
 
-            // Determine if user becomes premium after this deposit
-            const newTotalDeposited = currentUser.totalDeposited + amount;
-            const wasPremium = currentUser.totalDeposited >= 50000;
-            const becomesPremium = newTotalDeposited >= 50000 && !wasPremium;
+            // Add to pending deposit transactions
+            const pendingDepositTransactions = [...(currentUser.pendingDepositTransactions || []), transaction];
 
-            // Update user data
+            // Update user data - deposit pending mein add ho, balance mein nahi
             const updatedUser = {
                 ...currentUser,
-                balance: currentUser.balance + amount,
-                totalDeposited: newTotalDeposited,
+                pendingDeposits: (currentUser.pendingDeposits || 0) + amount,
                 lastDepositTime: now,
-                transactions: [...(currentUser.transactions || []), transaction],
-                depositHistory: [...(currentUser.depositHistory || []), transaction],
-                usedTrxIds: [...(currentUser.usedTrxIds || []), trxId]
+                usedTrxIds: [...(currentUser.usedTrxIds || []), trxId],
+                pendingDepositTransactions: pendingDepositTransactions,
+                transactions: [...(currentUser.transactions || []), transaction]
             };
-
-            if (!currentUser.firstDepositDate) {
-                updatedUser.firstDepositDate = now;
-            }
 
             // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
                     
-                    let successMessage = "Deposit successful! Amount added to your balance.";
-                    if (becomesPremium) {
-                        successMessage += " Congratulations! You are now a PREMIUM user and will get 1.3% daily profit with daily withdrawal access!";
-                        addNotificationToUser(
-                            "Congratulations! You're Now Premium!",
-                            `Your total deposit of PKR ${newTotalDeposited.toFixed(2)} has made you a PREMIUM user. You will now get 1.3% daily profit and can withdraw daily from your profits!`,
-                            'success'
-                        );
-                    } else {
-                        const profitRate = newTotalDeposited >= 50000 ? '1.3%' : '0.5%';
-                        addNotificationToUser(
-                            "Deposit Successful",
-                            `Your deposit of PKR ${amount.toFixed(2)} has been received. Your daily profit rate is ${profitRate}.`,
-                            'success'
-                        );
-                    }
+                    showMessage('depositMessage', 
+                        `Deposit request of PKR ${amount.toFixed(2)} submitted successfully! Waiting for admin approval.`, 
+                        'warning'
+                    );
                     
-                    showMessage('depositMessage', successMessage, 'success');
-                    showNotification("Deposit successful!");
+                    // Add notification
+                    addNotificationToUser(
+                        "Deposit Request Submitted",
+                        `Your deposit request of PKR ${amount.toFixed(2)} has been submitted and is pending admin approval.`,
+                        'info'
+                    );
                     
                     updateDashboard();
                     startDepositCooldownTimer();
@@ -2577,13 +2675,15 @@
                     
                     setTimeout(() => {
                         showDashboard();
-                    }, 2000);
+                    }, 3000);
                 })
                 .catch(error => {
                     console.error("Deposit error:", error);
-                    showMessage('depositMessage', "Deposit failed. Please try again.", 'error');
+                    showMessage('depositMessage', "Deposit request failed. Please try again.", 'error');
                 });
         }
+
+        // ================= WITHDRAWAL FUNCTION =================
 
         function processWithdraw() {
             const amount = parseFloat(document.getElementById('withdrawAmount').value);
@@ -2618,7 +2718,8 @@
                 status: "pending", // Pending status
                 withdrawalMonth: today.getMonth(),
                 withdrawalYear: today.getFullYear(),
-                withdrawnFrom: "profit"
+                withdrawnFrom: "profit",
+                transactionId: Date.now().toString()
             };
 
             // Update user data - amount balance se cut hogi aur pending mein chali jayegi
@@ -2645,7 +2746,7 @@
                         successMessage += `Next withdrawal available on 1st of next month.`;
                     }
                     
-                    showMessage('withdrawMessage', successMessage, 'success');
+                    showMessage('withdrawMessage', successMessage, 'warning');
                     
                     // Add notification for pending withdrawal
                     addNotificationToUser(
@@ -2673,6 +2774,252 @@
                 });
         }
 
+        // ================= ADMIN FUNCTIONS =================
+
+        // Admin: Confirm Deposit
+        function confirmDeposit(transactionId) {
+            if (!isAdmin()) {
+                showNotification("Only admin can perform this action", 'error');
+                return;
+            }
+
+            // Find the pending deposit transaction
+            const pendingDeposits = currentUser.pendingDepositTransactions || [];
+            const transactionIndex = pendingDeposits.findIndex(t => t.transactionId === transactionId);
+            
+            if (transactionIndex === -1) {
+                showNotification("Transaction not found", 'error');
+                return;
+            }
+
+            const transaction = pendingDeposits[transactionIndex];
+            const amount = transaction.amount;
+
+            // Check if user becomes premium after this deposit
+            const newTotalDeposited = currentUser.totalDeposited + amount;
+            const wasPremium = currentUser.totalDeposited >= 50000;
+            const becomesPremium = newTotalDeposited >= 50000 && !wasPremium;
+
+            // Remove from pending and add to balance
+            const updatedPendingDeposits = pendingDeposits.filter(t => t.transactionId !== transactionId);
+            
+            // Update the transaction status in transactions array
+            const updatedTransactions = currentUser.transactions.map(t => {
+                if (t.transactionId === transactionId) {
+                    return { ...t, status: 'completed' };
+                }
+                return t;
+            });
+
+            const updatedUser = {
+                ...currentUser,
+                balance: currentUser.balance + amount,
+                totalDeposited: newTotalDeposited,
+                pendingDeposits: (currentUser.pendingDeposits || 0) - amount,
+                pendingDepositTransactions: updatedPendingDeposits,
+                transactions: updatedTransactions
+            };
+
+            if (!currentUser.firstDepositDate) {
+                updatedUser.firstDepositDate = new Date().getTime();
+            }
+
+            // Save to database
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    
+                    let message = `Deposit of PKR ${amount.toFixed(2)} has been confirmed and added to your balance.`;
+                    if (becomesPremium) {
+                        message += " Congratulations! You are now a PREMIUM user!";
+                        addNotificationToUser(
+                            "Congratulations! You're Now Premium!",
+                            `Your total deposit of PKR ${newTotalDeposited.toFixed(2)} has made you a PREMIUM user. You will now get 1.3% daily profit and can withdraw daily from your profits!`,
+                            'success'
+                        );
+                    }
+                    
+                    showNotification(message, 'success');
+                    addNotificationToUser(
+                        "Deposit Confirmed",
+                        `Your deposit of PKR ${amount.toFixed(2)} has been confirmed and added to your balance.`,
+                        'success'
+                    );
+                    
+                    updateDashboard();
+                })
+                .catch(error => {
+                    console.error("Error confirming deposit:", error);
+                    showNotification("Failed to confirm deposit", 'error');
+                });
+        }
+
+        // Admin: Reject Deposit
+        function rejectDeposit(transactionId) {
+            if (!isAdmin()) {
+                showNotification("Only admin can perform this action", 'error');
+                return;
+            }
+
+            // Find the pending deposit transaction
+            const pendingDeposits = currentUser.pendingDepositTransactions || [];
+            const transactionIndex = pendingDeposits.findIndex(t => t.transactionId === transactionId);
+            
+            if (transactionIndex === -1) {
+                showNotification("Transaction not found", 'error');
+                return;
+            }
+
+            const transaction = pendingDeposits[transactionIndex];
+            const amount = transaction.amount;
+
+            // Remove from pending deposits
+            const updatedPendingDeposits = pendingDeposits.filter(t => t.transactionId !== transactionId);
+            
+            // Update the transaction status in transactions array
+            const updatedTransactions = currentUser.transactions.map(t => {
+                if (t.transactionId === transactionId) {
+                    return { ...t, status: 'failed' };
+                }
+                return t;
+            });
+
+            const updatedUser = {
+                ...currentUser,
+                pendingDeposits: (currentUser.pendingDeposits || 0) - amount,
+                pendingDepositTransactions: updatedPendingDeposits,
+                transactions: updatedTransactions
+            };
+
+            // Save to database
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    
+                    showNotification(`Deposit of PKR ${amount.toFixed(2)} has been rejected.`, 'error');
+                    addNotificationToUser(
+                        "Deposit Rejected",
+                        `Your deposit of PKR ${amount.toFixed(2)} has been rejected by admin. Please contact support.`,
+                        'error'
+                    );
+                    
+                    updateDashboard();
+                })
+                .catch(error => {
+                    console.error("Error rejecting deposit:", error);
+                    showNotification("Failed to reject deposit", 'error');
+                });
+        }
+
+        // Admin: Confirm Withdrawal
+        function confirmWithdrawal(transactionId) {
+            if (!isAdmin()) {
+                showNotification("Only admin can perform this action", 'error');
+                return;
+            }
+
+            // Find the pending withdrawal transaction
+            const transactions = currentUser.transactions || [];
+            const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId && t.status === 'pending');
+            
+            if (transactionIndex === -1) {
+                showNotification("Transaction not found", 'error');
+                return;
+            }
+
+            const transaction = transactions[transactionIndex];
+            const amount = transaction.amount;
+
+            // Update the transaction status
+            const updatedTransactions = transactions.map(t => {
+                if (t.transactionId === transactionId) {
+                    return { ...t, status: 'completed' };
+                }
+                return t;
+            });
+
+            const updatedUser = {
+                ...currentUser,
+                pendingWithdrawals: (currentUser.pendingWithdrawals || 0) - amount,
+                transactions: updatedTransactions
+            };
+
+            // Save to database
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    
+                    showNotification(`Withdrawal of PKR ${amount.toFixed(2)} has been confirmed.`, 'success');
+                    addNotificationToUser(
+                        "Withdrawal Confirmed",
+                        `Your withdrawal of PKR ${amount.toFixed(2)} has been confirmed and processed.`,
+                        'success'
+                    );
+                    
+                    updateDashboard();
+                })
+                .catch(error => {
+                    console.error("Error confirming withdrawal:", error);
+                    showNotification("Failed to confirm withdrawal", 'error');
+                });
+        }
+
+        // Admin: Reject Withdrawal
+        function rejectWithdrawal(transactionId) {
+            if (!isAdmin()) {
+                showNotification("Only admin can perform this action", 'error');
+                return;
+            }
+
+            // Find the pending withdrawal transaction
+            const transactions = currentUser.transactions || [];
+            const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId && t.status === 'pending');
+            
+            if (transactionIndex === -1) {
+                showNotification("Transaction not found", 'error');
+                return;
+            }
+
+            const transaction = transactions[transactionIndex];
+            const amount = transaction.amount;
+
+            // Update the transaction status and refund amount
+            const updatedTransactions = transactions.map(t => {
+                if (t.transactionId === transactionId) {
+                    return { ...t, status: 'failed' };
+                }
+                return t;
+            });
+
+            const updatedUser = {
+                ...currentUser,
+                balance: currentUser.balance + amount, // Refund to balance
+                profit: (currentUser.profit || 0) + amount, // Refund to profit
+                pendingWithdrawals: (currentUser.pendingWithdrawals || 0) - amount,
+                transactions: updatedTransactions
+            };
+
+            // Save to database
+            db.collection("users").doc(currentUser.uid).update(updatedUser)
+                .then(() => {
+                    currentUser = updatedUser;
+                    
+                    showNotification(`Withdrawal of PKR ${amount.toFixed(2)} has been rejected and refunded.`, 'error');
+                    addNotificationToUser(
+                        "Withdrawal Rejected",
+                        `Your withdrawal of PKR ${amount.toFixed(2)} has been rejected. Amount has been refunded to your balance.`,
+                        'error'
+                    );
+                    
+                    updateDashboard();
+                })
+                .catch(error => {
+                    console.error("Error rejecting withdrawal:", error);
+                    showNotification("Failed to reject withdrawal", 'error');
+                });
+        }
+
+        // Save payment methods
         function savePaymentMethods() {
             const easypaisa = document.getElementById('easypaisaAccount').value.trim();
             const jazzcash = document.getElementById('jazzcashAccount').value.trim();
@@ -2755,7 +3102,8 @@
                 type: "Profit",
                 amount: profitAmount,
                 date: now,
-                status: "completed"
+                status: "completed",
+                transactionId: Date.now().toString()
             };
 
             const updatedUser = {
@@ -2773,10 +3121,8 @@
                     
                     const profitRatePercent = profitRate * 100;
                     
-                    // Show notification
                     showNotification(`Daily profit of PKR ${profitAmount.toFixed(2)} (${profitRatePercent}%) added to your account!`);
                     
-                    // Add notification
                     addNotificationToUser(
                         "Daily Profit Added",
                         `Congratulations! Your daily profit of PKR ${profitAmount.toFixed(2)} (${profitRatePercent}%) has been added to your account.`,
@@ -2911,10 +3257,14 @@
         window.savePaymentMethods = savePaymentMethods;
         window.changePassword = changePassword;
         window.toggleNotificationPanel = toggleNotificationPanel;
-        window.showAllTransactions = showHistoryPage;
         window.filterHistoryByType = filterHistoryByType;
         window.filterHistory = filterHistory;
         window.markAllNotificationsAsRead = markAllNotificationsAsRead;
+        window.confirmDeposit = confirmDeposit;
+        window.rejectDeposit = rejectDeposit;
+        window.confirmWithdrawal = confirmWithdrawal;
+        window.rejectWithdrawal = rejectWithdrawal;
+        window.isAdmin = isAdmin;
     </script>
 </body>
 </html>
