@@ -8,21 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #000000;
-            --secondary: #00D4AA;
-            --secondary-dark: #00B894;
-            --dark: #0A0A0A;
-            --darker: #050505;
+            --primary: #1a1200;
+            --secondary: #FFD700;
+            --secondary-dark: #D4AF37;
+            --dark: #1a1200;
+            --darker: #0d0a00;
             --light: #FFFFFF;
-            --gray: #8A8A9E;
-            --card-bg: #1A1A1A;
-            --card-border: #333333;
-            --success: #00D4AA;
+            --gray: #B8A88A;
+            --card-bg: #2a1f0a;
+            --card-border: #D4AF37;
+            --success: #FFD700;
             --danger: #FF6B6B;
-            --warning: #FFD166;
-            --info: #6C5CE7;
+            --warning: #FFD700;
+            --info: #D4AF37;
             --premium: #FFD700;
             --pending: #FFA500;
+            --locked: #FF6B6B;
+            --unlocked: #00D4AA;
         }
         
         * {
@@ -40,7 +42,7 @@
         }
         
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, #111111 100%);
+            background: linear-gradient(135deg, #1a1200 0%, #2a1f0a 100%);
             padding: 20px 0 30px;
             border-bottom-left-radius: 25px;
             border-bottom-right-radius: 25px;
@@ -54,10 +56,21 @@
             position: absolute;
             width: 250px;
             height: 250px;
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.08);
             border-radius: 50%;
             top: -100px;
             right: -80px;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
         }
         
         .container {
@@ -67,6 +80,138 @@
             position: relative;
             z-index: 2;
         }
+        
+        /* ====== TOP NOTE ====== */
+        .top-note {
+            background: linear-gradient(135deg, #2a1f0a, #3d2f12);
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        
+        .top-note::before {
+            content: '⭐';
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            font-size: 1.5rem;
+            animation: spinStar 4s linear infinite;
+        }
+        
+        .top-note::after {
+            content: '⭐';
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            font-size: 1.5rem;
+            animation: spinStar 4s linear infinite reverse;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.25); }
+        }
+        
+        @keyframes spinStar {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        .top-note h3 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .top-note p {
+            color: #E8D5A8;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .top-note .highlight {
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .top-note .sub-text {
+            color: #B8A88A;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        .top-note .locked-text {
+            color: var(--locked);
+            font-weight: 600;
+        }
+        
+        .top-note .unlocked-text {
+            color: var(--unlocked);
+            font-weight: 600;
+        }
+        
+        /* ====== DEPOSIT LOCK PROGRESS ====== */
+        .deposit-lock-progress {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--card-border);
+        }
+        
+        .deposit-lock-progress .label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
+        .deposit-lock-progress .label-row .status {
+            font-weight: 600;
+        }
+        
+        .deposit-lock-progress .label-row .status.locked {
+            color: var(--locked);
+        }
+        
+        .deposit-lock-progress .label-row .status.unlocked {
+            color: var(--unlocked);
+        }
+        
+        .deposit-lock-progress .progress-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .deposit-lock-progress .progress-track .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            background: linear-gradient(90deg, var(--locked), var(--secondary), var(--unlocked));
+        }
+        
+        .deposit-lock-progress .target-label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        /* ====== END TOP NOTE ====== */
         
         .app-bar {
             display: flex;
@@ -98,7 +243,7 @@
         }
         
         .notification-icon {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 215, 0, 0.15);
             width: 44px;
             height: 44px;
             border-radius: 12px;
@@ -109,6 +254,7 @@
             font-size: 1.2rem;
             position: relative;
             cursor: pointer;
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
         
         .notification-badge {
@@ -128,14 +274,15 @@
         }
         
         .balance-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: linear-gradient(135deg, rgba(42, 31, 10, 0.95), rgba(61, 47, 18, 0.95));
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px;
-            border: 1px solid rgba(0, 212, 170, 0.2);
+            border: 2px solid var(--card-border);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.08);
         }
         
         .balance-card::before {
@@ -145,11 +292,28 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--secondary);
+            background: linear-gradient(90deg, var(--secondary), var(--secondary-dark), var(--secondary));
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .balance-card::after {
+            content: '✦';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 3rem;
+            opacity: 0.05;
+            color: var(--secondary);
         }
         
         .balance-label {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 215, 0, 0.7);
             font-size: 0.9rem;
             margin-bottom: 8px;
             font-weight: 500;
@@ -159,7 +323,8 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 5px;
-            color: var(--light);
+            color: var(--secondary);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
         
         .profit-label {
@@ -178,13 +343,14 @@
         }
         
         .user-type-badge.premium {
-            background: rgba(255, 215, 0, 0.15);
+            background: rgba(255, 215, 0, 0.2);
             color: var(--premium);
             border: 1px solid var(--premium);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
         }
         
         .user-type-badge.regular {
-            background: rgba(0, 212, 170, 0.15);
+            background: rgba(255, 215, 0, 0.1);
             color: var(--secondary);
             border: 1px solid var(--secondary);
         }
@@ -193,6 +359,18 @@
             background: rgba(255, 165, 0, 0.15);
             color: var(--pending);
             border: 1px solid var(--pending);
+        }
+        
+        .user-type-badge.locked {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--locked);
+            border: 1px solid var(--locked);
+        }
+        
+        .user-type-badge.unlocked {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--unlocked);
+            border: 1px solid var(--unlocked);
         }
         
         .quick-actions {
@@ -222,10 +400,11 @@
             transform: translateY(-3px);
             background: var(--secondary);
             border-color: var(--secondary);
+            color: var(--primary);
         }
         
         .action-icon {
-            background: rgba(0, 212, 170, 0.15);
+            background: rgba(255, 215, 0, 0.15);
             width: 48px;
             height: 48px;
             border-radius: 12px;
@@ -237,8 +416,8 @@
         }
         
         .action-btn:hover .action-icon {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--primary);
         }
         
         .action-label {
@@ -265,6 +444,7 @@
         .stat-card:hover {
             transform: translateY(-2px);
             border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.08);
         }
         
         .stat-icon {
@@ -277,7 +457,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 5px;
-            color: var(--light);
+            color: var(--secondary);
         }
         
         .stat-label {
@@ -324,7 +504,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
         }
         
         .transaction-item:last-child {
@@ -348,7 +528,7 @@
         }
         
         .transaction-icon.deposit {
-            background: rgba(0, 212, 170, 0.15);
+            background: rgba(255, 215, 0, 0.15);
             color: var(--success);
         }
         
@@ -358,7 +538,7 @@
         }
         
         .transaction-icon.profit {
-            background: rgba(255, 209, 102, 0.15);
+            background: rgba(255, 215, 0, 0.15);
             color: var(--warning);
         }
         
@@ -416,10 +596,11 @@
         .discover-card:hover {
             transform: translateX(5px);
             border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.08);
         }
         
         .discover-icon {
-            background: rgba(108, 92, 231, 0.15);
+            background: rgba(255, 215, 0, 0.1);
             width: 48px;
             height: 48px;
             border-radius: 12px;
@@ -427,7 +608,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: var(--info);
+            color: var(--secondary);
         }
         
         .discover-content h4 {
@@ -509,8 +690,8 @@
         .form-control:focus {
             outline: none;
             border-color: var(--secondary);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
         }
         
         .btn {
@@ -529,6 +710,7 @@
         .btn:hover {
             background: var(--secondary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
         
         .btn-danger {
@@ -570,7 +752,7 @@
         }
         
         .message.success {
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             color: var(--success);
             border-left: 4px solid var(--success);
         }
@@ -626,7 +808,7 @@
         }
         
         .withdraw-condition {
-            background: rgba(255, 209, 102, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             color: var(--warning);
             padding: 12px 15px;
             border-radius: 8px;
@@ -637,7 +819,7 @@
         }
         
         .withdraw-condition.success {
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             color: var(--success);
             border-left: 4px solid var(--success);
         }
@@ -649,9 +831,21 @@
         }
         
         .withdraw-condition.premium {
-            background: rgba(255, 215, 0, 0.1);
+            background: rgba(255, 215, 0, 0.15);
             color: var(--premium);
             border-left: 4px solid var(--premium);
+        }
+        
+        .withdraw-condition.locked {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--locked);
+            border-left: 4px solid var(--locked);
+        }
+        
+        .withdraw-condition.unlocked {
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--unlocked);
+            border-left: 4px solid var(--unlocked);
         }
         
         .tabs {
@@ -698,7 +892,7 @@
             color: var(--primary);
             padding: 15px 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             animation: slideIn 0.5s ease-out;
             display: flex;
@@ -706,6 +900,7 @@
             gap: 10px;
             font-weight: 600;
             max-width: 350px;
+            border: 1px solid var(--secondary);
         }
         
         @keyframes slideIn {
@@ -719,6 +914,12 @@
             color: var(--gray);
             font-size: 0.8rem;
             margin-top: 40px;
+        }
+        
+        .footer .whatsapp-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
         }
         
         .back-btn {
@@ -769,12 +970,12 @@
         }
         
         .notification-item.unread {
-            background: rgba(0, 212, 170, 0.05);
-            border-color: rgba(0, 212, 170, 0.3);
+            background: rgba(255, 215, 0, 0.05);
+            border-color: rgba(255, 215, 0, 0.3);
         }
         
         .notification-icon-small {
-            background: rgba(0, 212, 170, 0.15);
+            background: rgba(255, 215, 0, 0.15);
             width: 40px;
             height: 40px;
             border-radius: 10px;
@@ -867,7 +1068,7 @@
         
         .history-table td {
             padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
         }
         
         .history-table tr:last-child td {
@@ -882,7 +1083,7 @@
         }
         
         .status-badge.completed {
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             color: var(--success);
         }
         
@@ -933,7 +1134,7 @@
             width: 350px;
             max-height: 400px;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             display: none;
         }
@@ -977,7 +1178,7 @@
         }
         
         .info-box {
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(255, 215, 0, 0.08);
             border: 1px solid var(--secondary);
             border-radius: 10px;
             padding: 15px;
@@ -992,7 +1193,7 @@
         }
         
         .info-box.premium {
-            background: rgba(255, 215, 0, 0.1);
+            background: rgba(255, 215, 0, 0.12);
             border-color: var(--premium);
         }
         
@@ -1007,6 +1208,24 @@
         
         .info-box.warning i {
             color: var(--pending);
+        }
+        
+        .info-box.locked {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: var(--locked);
+        }
+        
+        .info-box.locked i {
+            color: var(--locked);
+        }
+        
+        .info-box.unlocked {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: var(--unlocked);
+        }
+        
+        .info-box.unlocked i {
+            color: var(--unlocked);
         }
         
         .pending-withdrawals {
@@ -1079,6 +1298,35 @@
                     <div class="notification-badge" id="notificationBadge">0</div>
                 </div>
             </div>
+
+            <!-- ====== TOP NOTE ====== -->
+            <div class="top-note">
+                <h3>🏆 Complete Your Deposit Target</h3>
+                <p>
+                    Deposit <span class="highlight">120,000 PKR</span> to Unlock Deposit Withdrawal
+                    <span class="sub-text" id="depositLockStatus">
+                        🔒 Currently <strong class="locked-text">LOCKED</strong> - Deposit amount cannot be withdrawn
+                    </span>
+                </p>
+            </div>
+
+            <!-- ====== DEPOSIT LOCK PROGRESS ====== -->
+            <div class="deposit-lock-progress" id="depositLockProgress">
+                <div class="label-row">
+                    <span>Deposit Lock Progress</span>
+                    <span class="status locked" id="lockStatusLabel">🔒 LOCKED</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="lockProgressFill" style="width: 0%;"></div>
+                </div>
+                <div class="target-label">
+                    <span id="currentDepositDisplay">PKR 0</span> / <span>PKR 120,000</span>
+                    <span style="display: block; font-size: 0.7rem; color: var(--gray); margin-top: 3px;" id="lockMessage">
+                        Deposit amount locked until 120,000 PKR target is reached
+                    </span>
+                </div>
+            </div>
+            <!-- ====== END DEPOSIT LOCK PROGRESS ====== -->
             
             <div class="balance-card" id="balanceCard">
                 <div class="balance-label">Current Balance</div>
@@ -1426,6 +1674,12 @@
                     <span>Available Profit for Withdrawal: PKR <span id="availableProfit">0.00</span></span>
                 </div>
                 
+                <!-- Deposit Lock Info -->
+                <div class="info-box locked" id="depositLockInfo">
+                    <i class="fas fa-lock"></i>
+                    <span id="depositLockInfoText">Your deposit amount is LOCKED. Complete 120,000 PKR deposit to unlock.</span>
+                </div>
+                
                 <div class="form-group">
                     <label for="withdrawAmount">Amount (PKR)</label>
                     <input type="number" id="withdrawAmount" class="form-control" placeholder="Enter amount">
@@ -1507,6 +1761,10 @@
                     <div class="form-group">
                         <label>Pending Withdrawals</label>
                         <input type="text" id="profilePendingWithdrawals" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Deposit Lock Status</label>
+                        <input type="text" id="profileDepositLock" class="form-control" disabled>
                     </div>
                 </div>
                 
@@ -1622,7 +1880,7 @@
     <!-- Footer -->
     <div class="footer">
         <p>© 2024 Mining Money Bank. All rights reserved.</p>
-        <p>WhatsApp Support: +923250416566</p>
+        <p>WhatsApp Support: <a href="https://wa.me/13157244022" target="_blank" class="whatsapp-link">+1-315-724-4022</a></p>
     </div>
     
     <!-- Notification Panel -->
@@ -1667,7 +1925,106 @@
         let profitTimerInterval;
         let depositCooldownInterval;
         let currentFilter = 'all';
-        let adminEmail = 'admin@miningbank.com'; // Admin email
+        let adminEmail = 'admin@miningbank.com';
+
+        // ==================== DEPOSIT LOCK SYSTEM ====================
+        const DEPOSIT_LOCK_TARGET = 120000;
+
+        function isDepositLocked() {
+            if (!currentUser) return true;
+            return (currentUser.totalDeposited || 0) < DEPOSIT_LOCK_TARGET;
+        }
+
+        function getDepositLockProgress() {
+            if (!currentUser) return 0;
+            const deposited = currentUser.totalDeposited || 0;
+            return Math.min((deposited / DEPOSIT_LOCK_TARGET) * 100, 100);
+        }
+
+        function updateDepositLockUI() {
+            if (!currentUser) return;
+            
+            const locked = isDepositLocked();
+            const progress = getDepositLockProgress();
+            const deposited = currentUser.totalDeposited || 0;
+            
+            // Update progress bar
+            const progressFill = document.getElementById('lockProgressFill');
+            const lockStatusLabel = document.getElementById('lockStatusLabel');
+            const currentDepositDisplay = document.getElementById('currentDepositDisplay');
+            const lockMessage = document.getElementById('lockMessage');
+            const depositLockStatus = document.getElementById('depositLockStatus');
+            
+            if (progressFill) {
+                progressFill.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    progressFill.style.background = 'linear-gradient(90deg, var(--unlocked), var(--secondary))';
+                } else {
+                    progressFill.style.background = 'linear-gradient(90deg, var(--locked), var(--secondary))';
+                }
+            }
+            
+            if (lockStatusLabel) {
+                if (locked) {
+                    lockStatusLabel.textContent = '🔒 LOCKED';
+                    lockStatusLabel.className = 'status locked';
+                } else {
+                    lockStatusLabel.textContent = '🔓 UNLOCKED';
+                    lockStatusLabel.className = 'status unlocked';
+                }
+            }
+            
+            if (currentDepositDisplay) {
+                currentDepositDisplay.textContent = `PKR ${deposited.toFixed(0)}`;
+            }
+            
+            if (lockMessage) {
+                if (locked) {
+                    const remaining = DEPOSIT_LOCK_TARGET - deposited;
+                    lockMessage.textContent = `🔒 Deposit ${remaining.toFixed(0)} PKR more to unlock (${progress.toFixed(1)}% complete)`;
+                    lockMessage.style.color = 'var(--locked)';
+                } else {
+                    lockMessage.textContent = '🎉 Deposit UNLOCKED! You can now withdraw your deposit amount!';
+                    lockMessage.style.color = 'var(--unlocked)';
+                }
+            }
+            
+            if (depositLockStatus) {
+                if (locked) {
+                    depositLockStatus.innerHTML = `🔒 Currently <strong class="locked-text">LOCKED</strong> - Need ${(DEPOSIT_LOCK_TARGET - deposited).toFixed(0)} PKR more to unlock`;
+                } else {
+                    depositLockStatus.innerHTML = `🔓 <strong class="unlocked-text">UNLOCKED!</strong> You can now withdraw your deposit amount!`;
+                }
+            }
+            
+            // Update deposit lock info on withdraw page
+            const depositLockInfo = document.getElementById('depositLockInfo');
+            const depositLockInfoText = document.getElementById('depositLockInfoText');
+            
+            if (depositLockInfo && depositLockInfoText) {
+                if (locked) {
+                    depositLockInfo.className = 'info-box locked';
+                    depositLockInfoText.innerHTML = `🔒 <strong>Deposit LOCKED:</strong> You need to deposit total <strong>${(DEPOSIT_LOCK_TARGET - deposited).toFixed(0)} PKR</strong> more to unlock your deposit amount. (${progress.toFixed(1)}% complete)`;
+                } else {
+                    depositLockInfo.className = 'info-box unlocked';
+                    depositLockInfoText.innerHTML = `🎉 <strong>Deposit UNLOCKED!</strong> You can now withdraw your full deposit amount of <strong>${deposited.toFixed(2)} PKR</strong>!`;
+                }
+            }
+            
+            // Update profile deposit lock status
+            const profileDepositLock = document.getElementById('profileDepositLock');
+            if (profileDepositLock) {
+                if (locked) {
+                    profileDepositLock.value = `🔒 LOCKED - ${(DEPOSIT_LOCK_TARGET - deposited).toFixed(0)} PKR remaining to unlock`;
+                    profileDepositLock.style.color = 'var(--locked)';
+                } else {
+                    profileDepositLock.value = `🔓 UNLOCKED - Full deposit amount of ${deposited.toFixed(2)} PKR is withdrawable`;
+                    profileDepositLock.style.color = 'var(--unlocked)';
+                }
+            }
+        }
+
+        // ==================== END DEPOSIT LOCK SYSTEM ====================
 
         // Message helper functions
         function showMessage(elementId, message, type = 'error') {
@@ -1715,7 +2072,6 @@
                 notifications: [...(currentUser.notifications || []), notification]
             };
             
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -1760,10 +2116,8 @@
                 return;
             }
             
-            // Sort notifications by timestamp (newest first)
             const sortedNotifications = [...currentUser.notifications].sort((a, b) => b.timestamp - a.timestamp);
             
-            // Load for notifications page
             container.innerHTML = '';
             sortedNotifications.forEach(notification => {
                 const notificationItem = document.createElement('div');
@@ -1782,7 +2136,6 @@
                 container.appendChild(notificationItem);
             });
             
-            // Load for notification panel (limit to 5)
             panelContainer.innerHTML = '';
             const panelNotifications = sortedNotifications.slice(0, 5);
             panelNotifications.forEach(notification => {
@@ -1805,7 +2158,6 @@
             updateNotificationBadge();
         }
 
-        // Get icon for notification type
         function getNotificationIcon(type) {
             switch(type) {
                 case 'success': return 'check-circle';
@@ -1816,7 +2168,6 @@
             }
         }
 
-        // Format time ago
         function formatTimeAgo(timestamp) {
             const now = new Date().getTime();
             const diff = now - timestamp;
@@ -1833,7 +2184,6 @@
             return new Date(timestamp).toLocaleDateString();
         }
 
-        // Mark notification as read
         function markNotificationAsRead(notificationId) {
             if (!currentUser || !currentUser.notifications) return;
             
@@ -1860,7 +2210,6 @@
                 });
         }
 
-        // Mark all notifications as read
         function markAllNotificationsAsRead() {
             if (!currentUser || !currentUser.notifications) return;
             
@@ -1884,13 +2233,11 @@
                 });
         }
 
-        // Toggle notification panel
         function toggleNotificationPanel() {
             const panel = document.getElementById('notificationPanel');
             panel.classList.toggle('active');
         }
 
-        // Close notification panel
         function closeNotificationPanel() {
             const panel = document.getElementById('notificationPanel');
             panel.classList.remove('active');
@@ -1906,6 +2253,7 @@
             if (currentUser) {
                 updateDashboard();
                 loadNotifications();
+                updateDepositLockUI();
             }
         }
 
@@ -1932,11 +2280,11 @@
             document.getElementById('withdrawSection').classList.remove('hidden');
             updateNav('withdraw');
             
-            // Withdrawal conditions check کریں
             if (currentUser) {
                 setTimeout(() => {
                     checkWithdrawalConditions();
                     updateAvailableProfit();
+                    updateDepositLockUI();
                 }, 100);
             }
         }
@@ -1951,7 +2299,6 @@
             document.getElementById('profileSection').classList.remove('hidden');
             updateNav('profile');
             
-            // Populate profile data
             document.getElementById('profileName').textContent = currentUser.name;
             document.getElementById('profileEmail').textContent = currentUser.email;
             document.getElementById('profileNameInput').value = currentUser.name;
@@ -1959,7 +2306,6 @@
             document.getElementById('profilePhoneInput').value = currentUser.phone || '';
             document.getElementById('profileRegDate').value = new Date(currentUser.registrationDate).toLocaleString();
             
-            // Set account type
             const isPremium = currentUser.totalDeposited >= 50000;
             const userType = isPremium ? 'premium' : 'regular';
             const profitRate = isPremium ? '0.7%' : '0.5%';
@@ -1968,11 +2314,9 @@
             document.getElementById('profileTotalDeposit').value = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
             document.getElementById('profileProfitRate').value = `${profitRate} Daily`;
             
-            // Pending deposits
             const pendingDeposits = currentUser.pendingDeposits || 0;
             document.getElementById('profilePendingDeposits').value = `PKR ${pendingDeposits.toFixed(2)}`;
             
-            // Pending withdrawals
             const pendingWithdrawals = currentUser.pendingWithdrawals || 0;
             document.getElementById('profilePendingWithdrawals').value = `PKR ${pendingWithdrawals.toFixed(2)}`;
             
@@ -1980,15 +2324,15 @@
             profileUserType.textContent = isPremium ? 'Premium User' : 'Regular User';
             profileUserType.className = `user-type-badge ${userType}`;
             
-            // Load payment methods if they exist
             if (currentUser.paymentMethods) {
                 document.getElementById('easypaisaAccount').value = currentUser.paymentMethods.easypaisa || '';
                 document.getElementById('jazzcashAccount').value = currentUser.paymentMethods.jazzcash || '';
                 document.getElementById('bankAccount').value = currentUser.paymentMethods.bank || '';
             }
+            
+            updateDepositLockUI();
         }
 
-        // Show notifications page
         function showNotifications() {
             if (!currentUser) {
                 showLogin();
@@ -2001,7 +2345,6 @@
             loadNotifications();
         }
 
-        // Show history page
         function showHistoryPage() {
             if (!currentUser) {
                 showLogin();
@@ -2033,7 +2376,6 @@
                 }
             });
             
-            // Close notification panel
             closeNotificationPanel();
         }
 
@@ -2069,8 +2411,7 @@
         // ==================== WITHDRAWAL CONDITIONS ====================
         
         function getProfitRate() {
-            if (!currentUser) return 0.005; // Default 0.5%
-            // Premium ke liye 0.7% (0.007), Regular ke liye 0.5% (0.005)
+            if (!currentUser) return 0.005;
             return currentUser.totalDeposited >= 50000 ? 0.007 : 0.005;
         }
         
@@ -2080,13 +2421,14 @@
             const infoBox = document.getElementById('withdrawalInfoBox');
             const infoText = document.getElementById('withdrawalInfoText');
             const profitRate = getProfitRate() * 100;
+            const locked = isDepositLocked();
             
             if (currentUser.totalDeposited >= 50000) {
                 infoBox.className = 'info-box premium';
-                infoText.innerHTML = `<strong>Premium User (${profitRate}% Daily Profit):</strong> You can withdraw DAILY from your profits only. Deposit amount is locked.`;
+                infoText.innerHTML = `<strong>Premium User (${profitRate}% Daily Profit):</strong> You can withdraw DAILY from your profits only. ${locked ? 'Deposit amount is LOCKED until 120,000 PKR.' : 'Deposit amount is UNLOCKED!'}`;
             } else {
                 infoBox.className = 'info-box';
-                infoText.innerHTML = `<strong>Regular User (${profitRate}% Daily Profit):</strong> You can withdraw on the 1st of each month from your profits only. Deposit amount is locked. Deposit PKR 50,000+ to become Premium and get 0.7% daily profit!`;
+                infoText.innerHTML = `<strong>Regular User (${profitRate}% Daily Profit):</strong> You can withdraw on the 1st of each month from your profits only. Deposit amount is ${locked ? 'LOCKED' : 'UNLOCKED'}. Deposit PKR 50,000+ to become Premium and get 0.7% daily profit!`;
             }
         }
         
@@ -2103,19 +2445,20 @@
             const badge = document.getElementById('userTypeBadge');
             const profitRateLabel = document.getElementById('profitRateLabel');
             const profitRate = getProfitRate() * 100;
+            const locked = isDepositLocked();
             
             if (currentUser.totalDeposited >= 50000) {
                 badge.textContent = 'Premium User';
                 badge.className = 'user-type-badge premium';
                 badge.classList.remove('hidden');
                 profitRateLabel.textContent = `Daily Profit: 0.7% (Premium)`;
-                profitRateLabel.style.color = 'var(--premium)';
+                profitRateLabel.style.color = '#FFD700';
             } else {
                 badge.textContent = 'Regular User';
                 badge.className = 'user-type-badge regular';
                 badge.classList.remove('hidden');
                 profitRateLabel.textContent = `Daily Profit: 0.5% (Regular)`;
-                profitRateLabel.style.color = 'var(--secondary)';
+                profitRateLabel.style.color = '#FFD700';
             }
         }
         
@@ -2132,19 +2475,28 @@
             
             const isPremium = currentUser.totalDeposited >= 50000;
             const profitRate = getProfitRate() * 100;
+            const locked = isDepositLocked();
+            const availableProfit = currentUser.profit || 0;
+            const depositedAmount = currentUser.totalDeposited || 0;
             
-            // Premium users daily withdraw kar sakte hain
+            // Premium users daily withdraw kar sakte hain (only from profits)
             if (isPremium) {
-                const availableProfit = currentUser.profit || 0;
-                
                 if (availableProfit <= 0) {
                     conditionDiv.innerHTML = `
                         <i class="fas fa-exclamation-triangle"></i> 
                         <strong>No Profit Available:</strong><br>
-                        You don't have any profit to withdraw. Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.
+                        You don't have any profit to withdraw. 
+                        ${locked ? 'Your deposit amount (PKR ' + depositedAmount.toFixed(2) + ') is LOCKED.' : 'Your deposit amount (PKR ' + depositedAmount.toFixed(2) + ') is UNLOCKED!'}
                     `;
                     conditionDiv.className = 'withdraw-condition error';
                     return false;
+                }
+                
+                let unlockMsg = '';
+                if (locked) {
+                    unlockMsg = `⚠️ Deposit (PKR ${depositedAmount.toFixed(2)}) is LOCKED. Complete 120,000 PKR to unlock.`;
+                } else {
+                    unlockMsg = `✅ Deposit (PKR ${depositedAmount.toFixed(2)}) is UNLOCKED! You can withdraw it.`;
                 }
                 
                 conditionDiv.innerHTML = `
@@ -2152,7 +2504,7 @@
                     <strong>Premium Withdrawal Available (${profitRate}% Daily Profit):</strong><br>
                     ✅ Daily withdrawal allowed<br>
                     ✅ You can withdraw from your profits only<br>
-                    ✅ Deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked<br>
+                    ${unlockMsg}<br>
                     Available profit: <strong>PKR ${availableProfit.toFixed(2)}</strong>
                 `;
                 conditionDiv.className = 'withdraw-condition premium';
@@ -2160,7 +2512,6 @@
             }
             
             // Regular users ke liye
-            // صرف مہینے کے پہلے دن
             if (currentDay !== 1) {
                 const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
                 const daysLeft = Math.ceil((nextMonthDate - today) / (1000 * 60 * 60 * 24));
@@ -2177,7 +2528,6 @@
                 return false;
             }
             
-            // پچھلے withdrawal کی تاریخ چیک کریں
             const lastWithdrawalDate = currentUser.lastWithdrawalDate;
             if (lastWithdrawalDate) {
                 const lastWithdraw = new Date(lastWithdrawalDate);
@@ -2200,35 +2550,37 @@
                 }
             }
             
-            // صرف profit mein se withdrawal
-            const availableProfit = currentUser.profit || 0;
-            
             if (availableProfit <= 0) {
                 conditionDiv.innerHTML = `
                     <i class="fas fa-exclamation-triangle"></i> 
                     <strong>No Profit Available:</strong><br>
-                    You don't have any profit to withdraw. Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.
+                    You don't have any profit to withdraw. 
+                    ${locked ? 'Your deposit amount (PKR ' + depositedAmount.toFixed(2) + ') is LOCKED.' : 'Your deposit amount (PKR ' + depositedAmount.toFixed(2) + ') is UNLOCKED!'}
                 `;
                 conditionDiv.className = 'withdraw-condition error';
                 return false;
             }
             
-            // تمام شرائط پوری ہونے پر
+            let unlockMsg = '';
+            if (locked) {
+                unlockMsg = `⚠️ Deposit (PKR ${depositedAmount.toFixed(2)}) is LOCKED. Complete 120,000 PKR to unlock.`;
+            } else {
+                unlockMsg = `✅ Deposit (PKR ${depositedAmount.toFixed(2)}) is UNLOCKED! You can withdraw it.`;
+            }
+            
             conditionDiv.innerHTML = `
                 <i class="fas fa-check-circle"></i> 
                 <strong>Regular User (${profitRate}% Daily Profit) - Withdrawal Available:</strong><br>
                 ✅ Today is 1st of the month<br>
                 ✅ No withdrawal made this month<br>
                 Available profit for withdrawal: <strong>PKR ${availableProfit.toFixed(2)}</strong><br>
-                <small>Note: Your deposit amount (PKR ${currentUser.totalDeposited.toFixed(2)}) is locked and cannot be withdrawn.</small>
+                ${unlockMsg}
             `;
             conditionDiv.className = 'withdraw-condition success';
             return true;
         }
 
-        // Update pending deposits and withdrawals display
         function updatePendingItems() {
-            // Pending Deposits
             const pendingDepositsSection = document.getElementById('pendingDepositsSection');
             const pendingDepositsAmount = document.getElementById('pendingDepositsAmount');
             
@@ -2239,7 +2591,6 @@
                 pendingDepositsAmount.textContent = currentUser.pendingDeposits.toFixed(2);
             }
             
-            // Pending Withdrawals
             const pendingWithdrawalsSection = document.getElementById('pendingWithdrawalsSection');
             const pendingWithdrawalsAmount = document.getElementById('pendingWithdrawalsAmount');
             
@@ -2288,7 +2639,7 @@
                         lastDepositTime: 0,
                         firstDepositDate: 0,
                         lastWithdrawalDate: 0,
-                        pendingDepositTransactions: [] // Pending deposit requests
+                        pendingDepositTransactions: []
                     };
                     
                     return db.collection("users").doc(user.uid).set(userData)
@@ -2297,7 +2648,6 @@
                             currentUser.uid = user.uid;
                             showMessage('registerMessage', "Registration successful!", 'success');
                             
-                            // Add welcome notification
                             addNotificationToUser(
                                 "Welcome to Mining Money Bank!",
                                 "Your account has been created successfully. Make your first deposit of minimum PKR 5,000 to start earning.",
@@ -2322,7 +2672,6 @@
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     showMessage('loginMessage', "Login successful!", 'success');
-                    // The auth state listener will handle the rest
                 })
                 .catch((error) => {
                     console.error("Login error:", error);
@@ -2345,7 +2694,6 @@
                 });
         }
 
-        // Check if current user is admin
         function isAdmin() {
             if (!currentUser) return false;
             return currentUser.email === adminEmail;
@@ -2359,26 +2707,21 @@
             const profitRate = getProfitRate();
             const dailyProfitAmount = currentUser.totalDeposited * profitRate;
 
-            // Update balance and stats
             document.getElementById('userBalance').textContent = `PKR ${currentUser.balance.toFixed(2)}`;
             document.getElementById('totalDeposited').textContent = `PKR ${currentUser.totalDeposited.toFixed(2)}`;
             document.getElementById('dailyProfit').textContent = `PKR ${dailyProfitAmount.toFixed(2)}`;
             document.getElementById('totalProfit').textContent = `PKR ${currentUser.profit.toFixed(2)}`;
 
-            // Update user type badge and withdrawal info
             updateUserTypeBadge();
             updateWithdrawalInfo();
-            
-            // Update pending items
             updatePendingItems();
-
-            // Update withdrawal condition if on withdraw page
+            updateDepositLockUI();
+            
             if (document.getElementById('withdrawCondition')) {
                 checkWithdrawalConditions();
                 updateAvailableProfit();
             }
             
-            // Update transaction history
             const transactionList = document.getElementById('transactionList');
             transactionList.innerHTML = '';
 
@@ -2396,7 +2739,6 @@
                     
                     const transactionIcon = document.createElement('div');
                     
-                    // Set icon based on transaction type and status
                     if (transaction.type.toLowerCase() === 'deposit') {
                         if (transaction.status === 'pending') {
                             transactionIcon.className = 'transaction-icon pending-deposit';
@@ -2465,14 +2807,10 @@
                 transactionList.innerHTML = '<div class="empty-state"><p>No transactions yet</p></div>';
             }
             
-            // Load notifications
             loadNotifications();
-            
-            // Update profit timer
             updateProfitTimer();
         }
 
-        // Update profit timer
         function updateProfitTimer() {
             if (currentUser && currentUser.lastProfitTime) {
                 const now = new Date().getTime();
@@ -2492,7 +2830,6 @@
             }
         }
 
-        // Load complete transaction history
         function loadHistory() {
             const historyTable = document.getElementById('historyTable');
             
@@ -2520,7 +2857,6 @@
                 return;
             }
             
-            // Create table
             let tableHTML = `
                 <table class="history-table">
                     <thead>
@@ -2557,17 +2893,14 @@
             historyTable.innerHTML = tableHTML;
         }
 
-        // Filter transactions by type
         function filterTransactionsByType(transactions, type) {
             if (type === 'all') return transactions;
             return transactions.filter(t => t.type.toLowerCase() === type);
         }
 
-        // Filter history by type
         function filterHistoryByType(type) {
             currentFilter = type;
             
-            // Update active filter button
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -2576,7 +2909,6 @@
             loadHistory();
         }
 
-        // Filter history by search
         function filterHistory() {
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             const rows = document.querySelectorAll('.history-table tbody tr');
@@ -2587,7 +2919,7 @@
             });
         }
 
-        // ================= DEPOSIT FUNCTION (PENDING) =================
+        // ================= DEPOSIT FUNCTION =================
 
         function processDeposit() {
             const amount = parseFloat(document.getElementById('depositAmount').value);
@@ -2599,7 +2931,6 @@
                 return;
             }
 
-            // Minimum deposit check
             if (amount < 5000) {
                 showMessage('depositMessage', "Minimum deposit amount is PKR 5,000", 'error');
                 return;
@@ -2610,13 +2941,11 @@
                 return;
             }
 
-            // Check if TRX ID is already used
             if (currentUser.usedTrxIds && currentUser.usedTrxIds.includes(trxId)) {
                 showMessage('depositMessage', "This transaction ID has already been used", 'error');
                 return;
             }
 
-            // Check deposit cooldown
             const now = new Date().getTime();
             const lastDepositTime = currentUser.lastDepositTime || 0;
             const hoursSinceLastDeposit = (now - lastDepositTime) / (1000 * 60 * 60);
@@ -2626,21 +2955,18 @@
                 return;
             }
 
-            // Create pending deposit transaction
             const transaction = {
                 type: "Deposit",
                 amount: amount,
                 method: method,
                 trxId: trxId,
                 date: now,
-                status: "pending", // Pending admin approval
-                transactionId: Date.now().toString() // Unique ID for this transaction
+                status: "pending",
+                transactionId: Date.now().toString()
             };
 
-            // Add to pending deposit transactions
             const pendingDepositTransactions = [...(currentUser.pendingDepositTransactions || []), transaction];
 
-            // Update user data - deposit pending mein add ho, balance mein nahi
             const updatedUser = {
                 ...currentUser,
                 pendingDeposits: (currentUser.pendingDeposits || 0) + amount,
@@ -2650,7 +2976,6 @@
                 transactions: [...(currentUser.transactions || []), transaction]
             };
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -2660,7 +2985,6 @@
                         'warning'
                     );
                     
-                    // Add notification
                     addNotificationToUser(
                         "Deposit Request Submitted",
                         `Your deposit request of PKR ${amount.toFixed(2)} has been submitted and is pending admin approval.`,
@@ -2670,7 +2994,6 @@
                     updateDashboard();
                     startDepositCooldownTimer();
                     
-                    // Clear form fields
                     document.getElementById('depositAmount').value = '';
                     document.getElementById('trxId').value = '';
                     
@@ -2695,51 +3018,92 @@
                 return;
             }
 
-            // Check if user has enough profit
             const availableProfit = currentUser.profit || 0;
-            if (amount > availableProfit) {
-                showMessage('withdrawMessage', `Insufficient profit. You can only withdraw up to PKR ${availableProfit.toFixed(2)} from your profits.`, 'error');
-                return;
+            const locked = isDepositLocked();
+            const depositedAmount = currentUser.totalDeposited || 0;
+            
+            // If deposit is locked, user can only withdraw from profits
+            if (locked) {
+                if (amount > availableProfit) {
+                    showMessage('withdrawMessage', `❌ Your deposit of PKR ${depositedAmount.toFixed(2)} is LOCKED! Complete ${(DEPOSIT_LOCK_TARGET - depositedAmount).toFixed(0)} PKR more to unlock. You can only withdraw from your profits (PKR ${availableProfit.toFixed(2)}).`, 'error');
+                    return;
+                }
+            } else {
+                // Deposit is UNLOCKED - user can withdraw from profits + deposit
+                const totalAvailable = availableProfit + depositedAmount;
+                if (amount > totalAvailable) {
+                    showMessage('withdrawMessage', `Insufficient balance. Available: PKR ${totalAvailable.toFixed(2)} (Profit: ${availableProfit.toFixed(2)} + Deposit: ${depositedAmount.toFixed(2)})`, 'error');
+                    return;
+                }
             }
 
-            // Check withdrawal conditions
             const conditionsMet = checkWithdrawalConditions();
             if (!conditionsMet) {
                 showMessage('withdrawMessage', "Withdrawal conditions not met. Please check the conditions above.", 'error');
                 return;
             }
 
-            // Create withdrawal transaction (Pending status)
             const today = new Date();
             const transaction = {
                 type: "Withdraw",
                 amount: amount,
                 method: method,
                 date: today.getTime(),
-                status: "pending", // Pending status
+                status: "pending",
                 withdrawalMonth: today.getMonth(),
                 withdrawalYear: today.getFullYear(),
-                withdrawnFrom: "profit",
+                withdrawnFrom: locked ? "profit" : "mixed",
                 transactionId: Date.now().toString()
             };
 
-            // Update user data - amount balance se cut hogi aur pending mein chali jayegi
+            let remainingAmount = amount;
+            let profitDeduct = Math.min(remainingAmount, currentUser.profit);
+            let depositDeduct = 0;
+            
+            if (remainingAmount > profitDeduct && !locked) {
+                depositDeduct = remainingAmount - profitDeduct;
+                remainingAmount = 0;
+            }
+            
             const updatedUser = {
                 ...currentUser,
-                balance: currentUser.balance - amount, // Balance se cut
-                profit: currentUser.profit - amount,
-                pendingWithdrawals: (currentUser.pendingWithdrawals || 0) + amount, // Pending mein add
+                balance: currentUser.balance - amount,
+                profit: currentUser.profit - profitDeduct,
+                pendingWithdrawals: (currentUser.pendingWithdrawals || 0) + amount,
                 lastWithdrawalDate: today.getTime(),
                 transactions: [...(currentUser.transactions || []), transaction]
             };
+            
+            // If deposit is being withdrawn (only when unlocked)
+            if (depositDeduct > 0 && !locked) {
+                updatedUser.totalDeposited = Math.max(0, currentUser.totalDeposited - depositDeduct);
+                // Check if user loses premium status
+                if (updatedUser.totalDeposited < 50000) {
+                    addNotificationToUser(
+                        "Premium Status Removed",
+                        `Your total deposit is now ${updatedUser.totalDeposited.toFixed(2)} PKR. You have lost Premium status. Deposit 50,000+ PKR to regain Premium benefits.`,
+                        'warning'
+                    );
+                }
+                // If deposit goes below lock target, it becomes locked again
+                if (updatedUser.totalDeposited < DEPOSIT_LOCK_TARGET) {
+                    addNotificationToUser(
+                        "Deposit Locked Again",
+                        `Your total deposit is now ${updatedUser.totalDeposited.toFixed(2)} PKR. Deposit is LOCKED again until you reach ${DEPOSIT_LOCK_TARGET} PKR.`,
+                        'warning'
+                    );
+                }
+            }
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
                     
-                    const profitRate = getProfitRate() * 100;
                     let successMessage = `Withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is pending approval. `;
+                    
+                    if (depositDeduct > 0) {
+                        successMessage += `PKR ${depositDeduct.toFixed(2)} withdrawn from your deposit. `;
+                    }
                     
                     if (currentUser.totalDeposited >= 50000) {
                         successMessage += `Your next withdrawal will be available tomorrow.`;
@@ -2749,21 +3113,19 @@
                     
                     showMessage('withdrawMessage', successMessage, 'warning');
                     
-                    // Add notification for pending withdrawal
                     addNotificationToUser(
                         "Withdrawal Request Pending",
-                        `Your withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is pending approval. You will be notified once processed.`,
+                        `Your withdrawal request of PKR ${amount.toFixed(2)} has been submitted and is pending approval.`,
                         'info'
                     );
                     
                     updateDashboard();
                     
-                    // Clear form field
                     document.getElementById('withdrawAmount').value = '';
                     
-                    // Update withdrawal condition display
                     checkWithdrawalConditions();
                     updateAvailableProfit();
+                    updateDepositLockUI();
                     
                     setTimeout(() => {
                         showDashboard();
@@ -2777,14 +3139,12 @@
 
         // ================= ADMIN FUNCTIONS =================
 
-        // Admin: Confirm Deposit
         function confirmDeposit(transactionId) {
             if (!isAdmin()) {
                 showNotification("Only admin can perform this action", 'error');
                 return;
             }
 
-            // Find the pending deposit transaction
             const pendingDeposits = currentUser.pendingDepositTransactions || [];
             const transactionIndex = pendingDeposits.findIndex(t => t.transactionId === transactionId);
             
@@ -2796,15 +3156,15 @@
             const transaction = pendingDeposits[transactionIndex];
             const amount = transaction.amount;
 
-            // Check if user becomes premium after this deposit
             const newTotalDeposited = currentUser.totalDeposited + amount;
             const wasPremium = currentUser.totalDeposited >= 50000;
             const becomesPremium = newTotalDeposited >= 50000 && !wasPremium;
+            
+            // Check if deposit lock is achieved
+            const becomesUnlocked = newTotalDeposited >= DEPOSIT_LOCK_TARGET;
 
-            // Remove from pending and add to balance
             const updatedPendingDeposits = pendingDeposits.filter(t => t.transactionId !== transactionId);
             
-            // Update the transaction status in transactions array
             const updatedTransactions = currentUser.transactions.map(t => {
                 if (t.transactionId === transactionId) {
                     return { ...t, status: 'completed' };
@@ -2825,7 +3185,6 @@
                 updatedUser.firstDepositDate = new Date().getTime();
             }
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -2840,6 +3199,15 @@
                         );
                     }
                     
+                    if (becomesUnlocked) {
+                        message += " 🎉 Congratulations! Your deposit is now UNLOCKED! You can withdraw your full deposit amount!";
+                        addNotificationToUser(
+                            "🎉 Deposit UNLOCKED!",
+                            `Congratulations! You have reached ${DEPOSIT_LOCK_TARGET} PKR deposit. Your deposit amount is now UNLOCKED and you can withdraw it anytime!`,
+                            'success'
+                        );
+                    }
+                    
                     showNotification(message, 'success');
                     addNotificationToUser(
                         "Deposit Confirmed",
@@ -2848,6 +3216,7 @@
                     );
                     
                     updateDashboard();
+                    updateDepositLockUI();
                 })
                 .catch(error => {
                     console.error("Error confirming deposit:", error);
@@ -2855,14 +3224,12 @@
                 });
         }
 
-        // Admin: Reject Deposit
         function rejectDeposit(transactionId) {
             if (!isAdmin()) {
                 showNotification("Only admin can perform this action", 'error');
                 return;
             }
 
-            // Find the pending deposit transaction
             const pendingDeposits = currentUser.pendingDepositTransactions || [];
             const transactionIndex = pendingDeposits.findIndex(t => t.transactionId === transactionId);
             
@@ -2874,10 +3241,8 @@
             const transaction = pendingDeposits[transactionIndex];
             const amount = transaction.amount;
 
-            // Remove from pending deposits
             const updatedPendingDeposits = pendingDeposits.filter(t => t.transactionId !== transactionId);
             
-            // Update the transaction status in transactions array
             const updatedTransactions = currentUser.transactions.map(t => {
                 if (t.transactionId === transactionId) {
                     return { ...t, status: 'failed' };
@@ -2892,7 +3257,6 @@
                 transactions: updatedTransactions
             };
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -2905,6 +3269,7 @@
                     );
                     
                     updateDashboard();
+                    updateDepositLockUI();
                 })
                 .catch(error => {
                     console.error("Error rejecting deposit:", error);
@@ -2912,14 +3277,12 @@
                 });
         }
 
-        // Admin: Confirm Withdrawal
         function confirmWithdrawal(transactionId) {
             if (!isAdmin()) {
                 showNotification("Only admin can perform this action", 'error');
                 return;
             }
 
-            // Find the pending withdrawal transaction
             const transactions = currentUser.transactions || [];
             const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId && t.status === 'pending');
             
@@ -2931,7 +3294,6 @@
             const transaction = transactions[transactionIndex];
             const amount = transaction.amount;
 
-            // Update the transaction status
             const updatedTransactions = transactions.map(t => {
                 if (t.transactionId === transactionId) {
                     return { ...t, status: 'completed' };
@@ -2945,7 +3307,6 @@
                 transactions: updatedTransactions
             };
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -2958,6 +3319,7 @@
                     );
                     
                     updateDashboard();
+                    updateDepositLockUI();
                 })
                 .catch(error => {
                     console.error("Error confirming withdrawal:", error);
@@ -2965,14 +3327,12 @@
                 });
         }
 
-        // Admin: Reject Withdrawal
         function rejectWithdrawal(transactionId) {
             if (!isAdmin()) {
                 showNotification("Only admin can perform this action", 'error');
                 return;
             }
 
-            // Find the pending withdrawal transaction
             const transactions = currentUser.transactions || [];
             const transactionIndex = transactions.findIndex(t => t.transactionId === transactionId && t.status === 'pending');
             
@@ -2984,7 +3344,6 @@
             const transaction = transactions[transactionIndex];
             const amount = transaction.amount;
 
-            // Update the transaction status and refund amount
             const updatedTransactions = transactions.map(t => {
                 if (t.transactionId === transactionId) {
                     return { ...t, status: 'failed' };
@@ -2994,13 +3353,12 @@
 
             const updatedUser = {
                 ...currentUser,
-                balance: currentUser.balance + amount, // Refund to balance
-                profit: (currentUser.profit || 0) + amount, // Refund to profit
+                balance: currentUser.balance + amount,
+                profit: (currentUser.profit || 0) + amount,
                 pendingWithdrawals: (currentUser.pendingWithdrawals || 0) - amount,
                 transactions: updatedTransactions
             };
 
-            // Save to database
             db.collection("users").doc(currentUser.uid).update(updatedUser)
                 .then(() => {
                     currentUser = updatedUser;
@@ -3013,6 +3371,7 @@
                     );
                     
                     updateDashboard();
+                    updateDepositLockUI();
                 })
                 .catch(error => {
                     console.error("Error rejecting withdrawal:", error);
@@ -3020,7 +3379,6 @@
                 });
         }
 
-        // Save payment methods
         function savePaymentMethods() {
             const easypaisa = document.getElementById('easypaisaAccount').value.trim();
             const jazzcash = document.getElementById('jazzcashAccount').value.trim();
@@ -3078,14 +3436,12 @@
         }
 
         function startProfitCalculation() {
-            // Calculate profit every 24 hours
             profitInterval = setInterval(() => {
                 if (currentUser && currentUser.totalDeposited > 0) {
                     addDailyProfit();
                 }
             }, 24 * 60 * 60 * 1000);
             
-            // Update timer every minute
             profitTimerInterval = setInterval(() => {
                 updateProfitTimer();
             }, 60000);
@@ -3094,7 +3450,6 @@
         function addDailyProfit() {
             if (!currentUser) return;
             
-            // Get profit rate based on user type
             const profitRate = getProfitRate();
             const profitAmount = currentUser.totalDeposited * profitRate;
             const now = new Date().getTime();
@@ -3136,7 +3491,6 @@
         }
 
         function startDepositCooldownTimer() {
-            // Update timer every second
             if (depositCooldownInterval) {
                 clearInterval(depositCooldownInterval);
             }
@@ -3164,7 +3518,6 @@
             }, 1000);
         }
 
-        // Initialize the app
         function initApp() {
             auth.onAuthStateChanged(user => {
                 if (user) {
@@ -3176,8 +3529,8 @@
                                 showDashboard();
                                 startProfitCalculation();
                                 startDepositCooldownTimer();
+                                updateDepositLockUI();
                                 
-                                // Check if profit needs to be added
                                 const now = new Date().getTime();
                                 const lastProfitTime = currentUser.lastProfitTime || now;
                                 const hoursSinceLastProfit = (now - lastProfitTime) / (1000 * 60 * 60);
@@ -3199,7 +3552,6 @@
             });
         }
 
-        // Close notification panel when clicking outside
         document.addEventListener('click', function(event) {
             const panel = document.getElementById('notificationPanel');
             const icon = document.querySelector('.notification-icon');
@@ -3209,28 +3561,26 @@
             }
         });
 
-        // Initialize the app when the page loads
         window.onload = function() {
             initApp();
             
-            // Password strength indicator
             const passwordInput = document.getElementById('regPassword');
             if (passwordInput) {
                 passwordInput.addEventListener('input', function() {
                     const strength = this.value.length;
                     const progress = document.getElementById('passwordStrength');
                     let width = '0%';
-                    let color = '#FF6B6B';
+                    let color = '#FFD700';
                     
                     if (strength >= 12) {
                         width = '100%';
-                        color = '#00D4AA';
+                        color = '#FFD700';
                     } else if (strength >= 8) {
                         width = '66%';
-                        color = '#FFD166';
+                        color = '#FFD700';
                     } else if (strength >= 6) {
                         width = '33%';
-                        color = '#FF6B6B';
+                        color = '#FFD700';
                     }
                     
                     progress.style.width = width;
@@ -3239,7 +3589,6 @@
             }
         };
 
-        // Make functions globally available
         window.showDashboard = showDashboard;
         window.showLogin = showLogin;
         window.showRegistration = showRegistration;
